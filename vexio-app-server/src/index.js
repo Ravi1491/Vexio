@@ -12,6 +12,8 @@ app.use(express.json());
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(cors());
+
 app.use("/", require("./routes/index"));
 
 app.listen(PORT, () => {
