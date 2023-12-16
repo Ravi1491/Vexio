@@ -1,12 +1,15 @@
-import express from 'express';
+import express from "express";
+
+import { login, register } from "../controllers/user";
 
 const router = express.Router();
 
-//@route  GET /
-//@desc   Landing Page
-//@access Public
 router.get("/", async (req, res) => {
-  return res.send("Hello World");
+  return res.send("Welcome to Vexio!!!");
 });
+
+router.post("/signup", register);
+
+router.post("/login", login);
 
 module.exports = router;
