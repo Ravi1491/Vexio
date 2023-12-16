@@ -1,3 +1,5 @@
+import aboutus from "../assets/aboutus.jpg"
+
 export default function Section3() {
   return (
     <div
@@ -10,13 +12,7 @@ export default function Section3() {
         alignItems: "center",
       }}
     >
-      <div
-        style={{
-          width: "400px",
-          height: "400px",
-          backgroundColor: "gray",
-        }}
-      ></div>
+      <img src={aboutus} alt="about us" height={450} width={500} />
       <div>
         <div
           style={{

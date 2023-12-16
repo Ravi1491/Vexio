@@ -17,7 +17,8 @@ export default function Section4() {
           alt="discussion"
           style={{
             width: "100%",
-            height: "700px",
+            height: "100%",
+            borderRadius: '40px'
           }}
         />
         <div
@@ -27,6 +28,7 @@ export default function Section4() {
             right: "120px",
             borderRadius: "100%",
             backgroundColor: "#FF4495",
+            opacity: 0.7,
             padding: "100px",
             color: "white",
           }}
@@ -64,7 +66,7 @@ export default function Section4() {
             style={{
               marginLeft: "auto",
               marginRight: "auto",
-              marginTop: '40px',
+              marginTop: "40px",
               border: "1px solid #fff",
               color: "#fff",
               background: "none",

@@ -1,3 +1,5 @@
+import logo from "../assets/logo.png";
+
 export default function Navbar() {
   return (
     <div
@@ -11,14 +13,21 @@ export default function Navbar() {
     >
       <div
         style={{
-          // paddingLeft: "20px",
-          paddingRight: "20px",
-          paddingTop: "15px",
-          paddingBottom: "15px",
-          fontSize: "40px",
+          display: "flex",
+          alignItems: "center",
         }}
       >
-        Vexio
+        <img src={logo} alt="logo" width={100} height={100} />
+        <div
+          style={{
+            paddingRight: "20px",
+            paddingTop: "15px",
+            paddingBottom: "15px",
+            fontSize: "40px",
+          }}
+        >
+          Vexio
+        </div>
       </div>
       <div
         style={{

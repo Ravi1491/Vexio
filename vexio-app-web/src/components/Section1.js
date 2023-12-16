@@ -1,12 +1,15 @@
+import illustration from "../assets/illustration.jpg";
+
 export default function Section1() {
   return (
     <div
       style={{
         display: "flex",
         gap: "80px",
-        marginTop: "100px",
+        marginTop: "60px",
         marginLeft: "auto",
         marginRight: "auto",
+        alignItems: 'center'
       }}
     >
       <div>
@@ -46,13 +49,15 @@ export default function Section1() {
           Explore Services
         </div>
       </div>
-      <div
+      <img
+        src={illustration}
+        alt="reviews"
+        height={550}
+        width={550}
         style={{
-          width: "600px",
-          height: "400px",
-          backgroundColor: "gray",
+          borderRadius: "100%",
         }}
-      ></div>
+      />
     </div>
   );
 }
