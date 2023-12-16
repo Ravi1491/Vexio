@@ -3,10 +3,12 @@ import express from "express";
 
 import logger from "./utils/logger";
 import { port } from "../config/default";
+import cors from "cors";
 
 const app = express();
 const PORT = port;
 
+app.use(cors());
 app.use(express.json());
 
 const bodyParser = require("body-parser");
