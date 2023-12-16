@@ -9,7 +9,7 @@ const {
   DB_HOST,
   JWT_SECRET,
   SHOPIFY_APP_API_KEY,
-  SHOPIFY_APP_API_SECRET,
+  SHOPIFY_APP_API_SECRET_KEY,
 } = process.env;
 
 module.exports = {
@@ -23,5 +23,5 @@ module.exports = {
   expires_in: "24h",
   issuer: "vexio",
   shopify_api_key: SHOPIFY_APP_API_KEY,
-  shopify_api_secret: SHOPIFY_APP_API_SECRET,
+  shopify_api_secret: SHOPIFY_APP_API_SECRET_KEY,
 };
