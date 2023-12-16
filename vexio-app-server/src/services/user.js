@@ -6,11 +6,11 @@ import { expires_in, issuer, jwt_secret } from "../../config/default";
 const userModel = model.user;
 
 export const findOneUser = async (payload) => {
-  const users = await userModel.findOne({
+  const user = await userModel.findOne({
     where: payload,
   });
 
-  return users;
+  return user;
 };
 
 export const createUser = async (payload) => {
