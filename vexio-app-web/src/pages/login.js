@@ -12,6 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CookiesProvider, useCookies } from "react-cookie";
 import StoreTable from "../components/StoreTable";
+import AccessModal from "../components/AccessModal";
 
 function Copyright(props) {
   return (
@@ -159,7 +160,7 @@ export default function Login() {
   return (
     <CookiesProvider>
       {cookies.access_token ? (
-        <StoreTable />
+        <AccessModal isOpen={true} />
       ) : (
         // <AccessModal isOpen={true} />
         <ThemeProvider theme={defaultTheme}>
