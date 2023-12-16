@@ -84,9 +84,10 @@ router.get("/oauth/callback", async (req, res) => {
     );
 
     const { access_token } = response.data;
+    const storeName = shop.split(".")[0];
     const storeData = await store.findOne({
       where: {
-        storeName: shop,
+        storeName,
       },
     });
 
