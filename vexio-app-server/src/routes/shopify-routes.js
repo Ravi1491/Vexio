@@ -11,6 +11,7 @@ require("dotenv").config();
 
 const router = express.Router();
 const store = model.store;
+const storeProducts = model.store_product;
 
 router.get("/install-app", async (req, res) => {
   try {
@@ -119,7 +120,7 @@ router.get("/fetch-products", async (req, res) => {
     const storeData = await store.findOne({
       where: {
         storeName: shop,
-        isAppInstall: true, // Ensure that the app is installed
+        isAppInstall: true,
       },
     });
 
@@ -140,6 +141,24 @@ router.get("/fetch-products", async (req, res) => {
     });
 
     const products = response.data.products;
+
+    let productsData = [];
+    await Promise.all(
+      products.map(async (product) => {
+        const { title, id, handle } = product;
+        const storeId = storeData.id;
+
+        productsData.push({
+          storeId,
+          productTitle: title,
+          productSlug: handle,
+          productId: id,
+          metadata: product,
+        });
+      })
+    );
+
+    await storeProducts.bulkCreate(productsData);
 
     res.json(products);
   } catch (error) {
