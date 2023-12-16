@@ -31,6 +31,15 @@ export async function register(req, res) {
 
     logger.info("User Created Successfully!!!");
 
+    const jwtToken = await generateToken({
+      id: newUser.id,
+      email: newUser.email,
+    });
+
+    req.res.cookie("user_access_token", jwtToken.token, {
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
     res.status(201).send(newUser);
   } catch (error) {
     logger.error(error);
