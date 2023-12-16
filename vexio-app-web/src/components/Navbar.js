@@ -63,8 +63,8 @@ export default function Navbar() {
               paddingTop: "15px",
               paddingBottom: "15px",
               maxHeight: "max-content",
-              textDecoration: 'none',
-              color: 'black'
+              textDecoration: "none",
+              color: "black",
             }}
             className="navitem"
             href="mailto: ishitaarora382@gmail.com"
@@ -78,19 +78,22 @@ export default function Navbar() {
             gap: "40px",
           }}
         >
-          <div
+          <a
             style={{
               paddingLeft: "20px",
               paddingRight: "20px",
               paddingTop: "15px",
               paddingBottom: "15px",
               maxHeight: "max-content",
+              textDecoration: "none",
+              color: "black",
             }}
             className="navitemhover"
+            href="/login"
           >
             Login
-          </div>
-          <div
+          </a>
+          <a
             style={{
               backgroundColor: "#FF4495",
               paddingLeft: "30px",
@@ -100,11 +103,13 @@ export default function Navbar() {
               borderRadius: "150px",
               cursor: "pointer",
               maxHeight: "max-content",
+              textDecoration: 'none',
               color: "white",
             }}
+            href="/signup"
           >
             Sign Up
-          </div>
+          </a>
         </div>
       </div>
     </div>
