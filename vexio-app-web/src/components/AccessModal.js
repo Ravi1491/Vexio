@@ -8,6 +8,7 @@ import Box from "@mui/system/Box";
 import { OutlinedInput } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
+import Typography from "@mui/material/Typography";
 
 import logo from "../assets/logo.png";
 
@@ -31,7 +32,7 @@ const AccessModal = ({ isOpen, onClose }) => {
           "& .MuiPaper-root": {
             width: "100%",
             maxWidth: "800px",
-            height: "70%", // Set your width here
+            height: "100%", // Set your width here
           },
         },
       }}
@@ -56,7 +57,7 @@ const AccessModal = ({ isOpen, onClose }) => {
             }}
           >
             {" "}
-            Allow Vexigo to access your Shopify Account?
+            Allow Vexio to access your Shopify Account?
           </Box>
         </Box>
       </DialogTitle>
@@ -67,20 +68,33 @@ const AccessModal = ({ isOpen, onClose }) => {
             justifyContent: "flex-end",
             //alignItems: "center",
             flexDirection: "column",
-            px: "20%",
+            //px: "20%",
+            px: "48px",
           }}
         >
-          <p>
-            Allow Vexio to access your account for integration. By clicking
-            "Allow Access," you agree to the terms and conditions.
-          </p>
+          <Typography align="justify">
+            Enter your Shopify username
+            <span style={{ color: "#5CCDFB" }}>
+              {" "}
+              https://username.myshopify.com/{" "}
+            </span>
+            even if you use a custom domain like https://name-of-shop.com/. By
+            using the Shopify app, you will be able to connect your Vexio
+            account with your Shopify merchant account. As a reminder, your use
+            of any Shopify services, including through Vexio, is subject to
+            Shopify's terms, conditions, and other policies, including, among
+            others, the Terms of Service located at Shopify Terms of Service
+            and/or any other terms that you have agreed to with Shopify.
+          </Typography>
+
           <Box
             sx={{
               display: "flex",
               textAlign: "center",
-              justifyContent: "flex-end",
+              justifyContent: "flex-start",
               alignItems: "center",
               color: "#A4A3A4",
+              p: "24px",
             }}
           >
             https://
@@ -92,7 +106,7 @@ const AccessModal = ({ isOpen, onClose }) => {
           <Box
             sx={{
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: "center",
               py: "32px",
             }}
           >
