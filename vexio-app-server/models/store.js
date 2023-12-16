@@ -1,29 +1,74 @@
-// models/store.js
+"use strict";
+import { Model } from "sequelize";
 
-const { DataTypes } = require("sequelize");
-const sequelize = require("../database"); // Assuming you have a Sequelize instance
+export default (sequelize, DataTypes) => {
+  class Store extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  }
 
-const Store = sequelize.define("Store", {
-  storeName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    field: "store_name",
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  accessToken: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    field: "access_token",
-  },
-  isAppInstall: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
-    field: "is_app_install",
-  },
-});
+  Store.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
+        primaryKey: true,
+      },
+      storeName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        field: "store_name",
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      accessToken: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        field: "access_token",
+      },
+      isAppInstall: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: "is_app_install",
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        field: "created_at",
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        field: "updated_at",
+      },
+      deletedAt: {
+        allowNull: true,
+        type: DataTypes.DATE,
+        field: "deleted_at",
+      },
+    },
+    {
+      paranoid: true,
+      timestamps: true,
+      deletedAt: "deleted_at",
+      sequelize,
+      modelName: "store",
+    }
+  );
 
-module.exports = Store;
+  Store.associate = function (models) {
+    // associations can be defined here
+  };
+
+  return Store;
+};

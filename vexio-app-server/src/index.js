@@ -12,7 +12,7 @@ app.use(express.json());
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/", require("./src/routes/index"));
+app.use("/", require("./routes/index"));
 
 app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);

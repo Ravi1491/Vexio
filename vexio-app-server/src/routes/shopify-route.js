@@ -1,10 +1,10 @@
 import express from "express";
 import logger from "../utils/logger";
+import Store from "../../models/store";
 require("dotenv").config();
 const crypto = require("crypto");
 const axios = require("axios");
 const querystring = require("querystring");
-const Store = require("../models/store");
 
 const router = express.Router();
 
