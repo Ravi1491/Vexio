@@ -57,13 +57,6 @@ export default function Login() {
     return Object.values(newErrors).every((error) => error === null);
   };
 
-  //   const handleCheckboxChange = (e) => {
-  //     setFormData({
-  //       ...formData,
-  //       checkbox: e.target.checked,
-  //     });
-  //   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -92,10 +85,27 @@ export default function Login() {
         }
 
         const result = await response.json();
+        console.log("111SSSSTTresponse", result.user.email);
+
+        const response1 = await fetch(
+          `http://localhost:4000/stores/getAllStores?email=${result.user.email}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              // Add any additional headers if needed
+            },
+          }
+        );
+
+        if (!response1.ok) {
+          throw new Error(`HTTP error! Status: ${response1.status}`);
+        }
+
+        const storesData = await response1.json();
+        console.log("Get All Stores response:", storesData);
+
         setCookie("access_token", result.accessToken, { path: "/" });
-        // navigate("/");
-        // setModalOpen(true);
-        //  setData(result);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
