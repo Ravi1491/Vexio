@@ -3,6 +3,7 @@ import express from "express";
 import userRouter from "./user-routes";
 import shopifyRouter from "./shopify-routes";
 import storeRouter from "./store-routes";
+import webhookRouter from "./webhooks";
 
 const router = express.Router();
 
@@ -13,5 +14,6 @@ router.get("/", async (req, res) => {
 router.use("/user", userRouter);
 router.use("/shopify", shopifyRouter);
 router.use("/stores", storeRouter);
+router.use("/webhook", webhookRouter);
 
 module.exports = router;
