@@ -8,6 +8,8 @@ const {
   DB_PORT,
   DB_HOST,
   JWT_SECRET,
+  SHOPIFY_APP_API_KEY,
+  SHOPIFY_APP_API_SECRET_KEY,
 } = process.env;
 
 module.exports = {
@@ -20,4 +22,6 @@ module.exports = {
   jwt_secret: JWT_SECRET || "vexio-secret",
   expires_in: "24h",
   issuer: "vexio",
+  shopify_api_key: SHOPIFY_APP_API_KEY,
+  shopify_api_secret: SHOPIFY_APP_API_SECRET_KEY,
 };
