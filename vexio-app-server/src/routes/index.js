@@ -4,6 +4,7 @@ import userRouter from "./user-routes";
 import shopifyRouter from "./shopify-routes";
 import sendEmail from "../utils/sendMail";
 import { node_env } from "../../config/default";
+import storeRouter from "./store-routes";
 
 const router = express.Router();
 
@@ -37,5 +38,6 @@ router.get("/send-test-email", async (req, res) => {
 
 router.use("/user", userRouter);
 router.use("/shopify", shopifyRouter);
+router.use("/stores", storeRouter);
 
 module.exports = router;
