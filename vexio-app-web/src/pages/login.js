@@ -152,9 +152,7 @@ export default function Login() {
   return (
     <CookiesProvider>
       {cookies.access_token ? (
-        <>
-          <AccessModal isOpen={true} />
-        </>
+        <AccessModal isOpen={true} />
       ) : (
         <ThemeProvider theme={defaultTheme}>
           <Container component="main" maxWidth="xs">

@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CookiesProvider, useCookies } from "react-cookie";
+import AccessModal from "../components/AccessModal";
 
 function Copyright(props) {
   return (
@@ -166,7 +167,7 @@ export default function SignUp() {
   return (
     <CookiesProvider>
       {cookies.access_token ? (
-        <div>LOGIN Successfully</div>
+        <AccessModal isOpen={true} />
       ) : (
         <ThemeProvider theme={defaultTheme}>
           <Container component="main" maxWidth="xs">
