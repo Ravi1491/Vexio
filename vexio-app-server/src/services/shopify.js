@@ -1,4 +1,5 @@
 import axios from "axios";
+import { be_domain } from "../../config/default";
 
 // Function to register a webhook in Shopify
 export async function registerWebhook(shop, accessToken) {
