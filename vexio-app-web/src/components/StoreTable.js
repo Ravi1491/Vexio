@@ -218,7 +218,29 @@ export default function StoreTable() {
       sx={{ width: "100%", height: "calc(100% - 32px)", position: "relative" }}
     >
       <Navbar />
-
+      <Box
+        sx={{
+          color: "#ff4495",
+          display: "flex",
+          justifyContent: "flex-start",
+          p: "24px",
+        }}
+      >
+        <Button
+          // onClick={onClose}
+          sx={{
+            color: "white",
+            background: "#ff4495",
+            ":hover": {
+              background: "#ff4495",
+            },
+            borderRadius: "150px",
+            p: "15px 30px",
+          }}
+        >
+          Add new Store
+        </Button>
+      </Box>
       <div
         style={{
           position: "absolute",
@@ -336,29 +358,6 @@ export default function StoreTable() {
             })}
           </TableBody>
         </Table>
-        <Box
-          sx={{
-            color: "#ff4495",
-            display: "flex",
-            justifyContent: "center",
-            p: "24px",
-          }}
-        >
-          <Button
-            // onClick={onClose}
-            sx={{
-              color: "white",
-              background: "#ff4495",
-              ":hover": {
-                background: "#ff4495",
-              },
-              borderRadius: "150px",
-              p: "15px 30px",
-            }}
-          >
-            Add new Store
-          </Button>
-        </Box>
       </TableContainer>
     </Box>
   );
