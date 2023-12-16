@@ -1,4 +1,5 @@
 import logo from "../assets/logo.png";
+import "../App.css";
 
 export default function Navbar() {
   return (
@@ -6,9 +7,8 @@ export default function Navbar() {
       style={{
         display: "flex",
         fontSize: "20px",
-        justifyContent: "space-between",
+        gap: "20px",
         alignItems: "center",
-        //   fontFamily: "Times New Roman",
       }}
     >
       <div
@@ -32,85 +32,79 @@ export default function Navbar() {
       <div
         style={{
           display: "flex",
-          gap: "40px",
+          width: "100%",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
         <div
           style={{
-            paddingLeft: "20px",
-            paddingRight: "20px",
-            paddingTop: "15px",
-            paddingBottom: "15px",
-            maxHeight: "max-content",
+            display: "flex",
+            gap: "40px",
           }}
         >
-          Home
+          <div
+            style={{
+              paddingLeft: "20px",
+              paddingRight: "20px",
+              paddingTop: "15px",
+              paddingBottom: "15px",
+              maxHeight: "max-content",
+            }}
+            className="navitem"
+          >
+            Home
+          </div>
+
+          <a
+            style={{
+              paddingLeft: "20px",
+              paddingRight: "20px",
+              paddingTop: "15px",
+              paddingBottom: "15px",
+              maxHeight: "max-content",
+              textDecoration: 'none',
+              color: 'black'
+            }}
+            className="navitem"
+            href="mailto: ishitaarora382@gmail.com"
+          >
+            Contact
+          </a>
         </div>
         <div
           style={{
-            paddingLeft: "20px",
-            paddingRight: "20px",
-            paddingTop: "15px",
-            paddingBottom: "15px",
-            maxHeight: "max-content",
+            display: "flex",
+            gap: "40px",
           }}
         >
-          About
-        </div>
-        <div
-          style={{
-            paddingLeft: "20px",
-            paddingRight: "20px",
-            paddingTop: "15px",
-            paddingBottom: "15px",
-            maxHeight: "max-content",
-          }}
-        >
-          Services
-        </div>
-        <div
-          style={{
-            paddingLeft: "20px",
-            paddingRight: "20px",
-            paddingTop: "15px",
-            paddingBottom: "15px",
-            maxHeight: "max-content",
-          }}
-        >
-          Contact
-        </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          gap: "40px",
-        }}
-      >
-        <div
-          style={{
-            paddingLeft: "20px",
-            paddingRight: "20px",
-            paddingTop: "15px",
-            paddingBottom: "15px",
-            maxHeight: "max-content",
-          }}
-        >
-          Login
-        </div>
-        <div
-          style={{
-            backgroundColor: "#FF4495",
-            paddingLeft: "30px",
-            paddingRight: "30px",
-            paddingTop: "15px",
-            paddingBottom: "15px",
-            borderRadius: "150px",
-            cursor: "pointer",
-            maxHeight: "max-content",
-            color: 'white'
-          }}
-        >
-          Sign Up
+          <div
+            style={{
+              paddingLeft: "20px",
+              paddingRight: "20px",
+              paddingTop: "15px",
+              paddingBottom: "15px",
+              maxHeight: "max-content",
+            }}
+            className="navitemhover"
+          >
+            Login
+          </div>
+          <div
+            style={{
+              backgroundColor: "#FF4495",
+              paddingLeft: "30px",
+              paddingRight: "30px",
+              paddingTop: "15px",
+              paddingBottom: "15px",
+              borderRadius: "150px",
+              cursor: "pointer",
+              maxHeight: "max-content",
+              color: "white",
+            }}
+          >
+            Sign Up
+          </div>
         </div>
       </div>
     </div>

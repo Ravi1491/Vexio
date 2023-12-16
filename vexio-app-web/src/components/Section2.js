@@ -1,3 +1,5 @@
+import "../App.css"
+
 export default function Section2() {
   return (
     <div
@@ -34,7 +36,9 @@ export default function Section2() {
           display: "flex",
           justifyContent: "space-between",
           gap: "20px",
+          flexWrap:'wrap'
         }}
+        className="fourbox"
       >
         <div
           style={{

@@ -9,14 +9,16 @@ export default function Section1() {
         marginTop: "60px",
         marginLeft: "auto",
         marginRight: "auto",
-        alignItems: 'center'
+        alignItems: "center",
       }}
+      className="section1"
     >
       <div>
         <div
           style={{
             fontSize: "70px",
           }}
+          className="bring"
         >
           We bring you
           <br /> new reviews
@@ -57,6 +59,7 @@ export default function Section1() {
         style={{
           borderRadius: "100%",
         }}
+        className="illustration"
       />
     </div>
   );

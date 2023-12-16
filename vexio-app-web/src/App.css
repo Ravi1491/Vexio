@@ -1,6 +1,73 @@
-body{
-    /* background-color:hotpink; */
-    /* bopacity: 0.2; */
-    background-image: linear-gradient(to right, white  , #FFF0F6 );
-    font-family: "Nunito",sans-serif;
+body {
+  /* background-color:hotpink; */
+  /* bopacity: 0.2; */
+  background-image: linear-gradient(to right, white, #fff0f6);
+  font-family: "Nunito", sans-serif;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  [class*="fourbox"] {
+    /* width: 100%; */
+    flex-wrap: wrap;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  /* For mobile phones: */
+  [class="bring"] {
+    font-size: "40px";
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  /* For mobile phones: */
+  [class="illustration"] {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  /* For mobile phones: */
+  [class="section3"] {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 850) {
+  /* For mobile phones: */
+  [class="illustration"] {
+    width: 550px;
+    height: 550px;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  /* For mobile phones: */
+  [class="section1"] {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 830px) {
+  /* For mobile phones: */
+  [class="navitem"] {
+    visibility: hidden;
+  }
+}
+
+.navitemhover:hover {
+  background-color: #ff4495;
+  color: white;
+  border-radius: 150px;
+  cursor: pointer;
+  /* opacity: 0.7; */
+}
+
+.navitem:hover {
+  background-color: #ff4495;
+  color: white;
+  border-radius: 150px;
+  cursor: pointer;
 }

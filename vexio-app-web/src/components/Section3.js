@@ -11,6 +11,7 @@ export default function Section3() {
         gap: "150px",
         alignItems: "center",
       }}
+      className="section3"
     >
       <img src={aboutus} alt="about us" height={450} width={500} />
       <div>
