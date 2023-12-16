@@ -26,6 +26,25 @@ router.get("/install-app", async (req, res) => {
       return;
     }
 
+    const storeData = await store.findOne({
+      where: {
+        storeName: shop,
+      },
+    });
+
+    if (!storeData) {
+      await store.create({
+        storeName: shop,
+        email: email || "ravi149185@gmail.com",
+        accessToken: "",
+        isAppInstall: true,
+      });
+    }
+
+    if (storeData && storeData.isAppInstall) {
+      return res.send("App already installed");
+    }
+
     const nonce = crypto.randomBytes(8).toString("hex");
     const redirectUri = `https://f8a0-2405-201-5011-217a-a887-d469-ad15-fa10.ngrok-free.app/shopify/oauth/callback`;
     const authUrl = `https://${shop}.myshopify.com/admin/oauth/authorize?client_id=${apiKey}&scope=${scopes}&redirect_uri=${redirectUri}&state=${nonce}`;
@@ -72,18 +91,13 @@ router.get("/oauth/callback", async (req, res) => {
     });
 
     if (!storeData) {
-      await store.create({
-        storeName: shop,
-        email: email || "ravi149185@gmail.com",
-        accessToken: access_token,
-        isAppInstall: true,
-      });
-    } else {
-      await store.update(
-        { accessToken: access_token, isAppInstall: true },
-        { where: { storeName: shop } }
-      );
+      return res.send("Store not found");
     }
+
+    await store.update(
+      { accessToken: access_token, isAppInstall: true },
+      { where: { storeName: shop } }
+    );
 
     res.send("Successfully connected to Shopify!");
   } catch (error) {
