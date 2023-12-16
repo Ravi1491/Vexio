@@ -14,7 +14,6 @@ export const findOneUser = async (payload) => {
 };
 
 export const createUser = async (payload) => {
-  console.log(payload);
   return userModel.create({ ...payload });
 };
 

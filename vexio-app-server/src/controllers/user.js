@@ -76,6 +76,7 @@ export async function login(req, res) {
 
     res.status(200).send(response);
   } catch (error) {
+    logger.error(error);
     res.status(400).send(error);
   }
 }
