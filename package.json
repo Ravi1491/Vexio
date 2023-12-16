@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/DivyanshRai27/Vexio/issues"
   },
-  "homepage": "https://github.com/DivyanshRai27/Vexio#readme"
+  "homepage": "https://github.com/DivyanshRai27/Vexio#readme",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "react-router-dom": "^6.21.0"
+  }
 }
