@@ -1,170 +1,17 @@
 import express from "express";
-import crypto from "crypto";
-import axios from "axios";
-import querystring from "querystring";
-import model from "../../models";
-import { shopify_api_key, shopify_api_secret } from "../../config/default";
 
-import logger from "../utils/logger";
-
-require("dotenv").config();
+import {
+  fetchProducts,
+  installApp,
+  oAuthCallback,
+} from "../controllers/shopify";
 
 const router = express.Router();
-const store = model.store;
-const storeProducts = model.store_product;
 
-router.get("/install-app", async (req, res) => {
-  try {
-    const apiKey = shopify_api_key;
-    const scopes =
-      "read_products,read_orders, read_analytics, read_orders, read_product_feeds, read_product_listings, read_products";
+router.get("/install", installApp);
 
-    const shop = req.query.shop || "xg-dev";
-    const email = req.query.email;
+router.get("/oauth/callback", oAuthCallback);
 
-    if (!shop) {
-      res.send("Shop parameter is missing");
-      return;
-    }
-
-    const storeData = await store.findOne({
-      where: {
-        storeName: shop,
-      },
-    });
-
-    if (!storeData) {
-      await store.create({
-        storeName: shop,
-        email: email || "ravi149185@gmail.com",
-        accessToken: "",
-        isAppInstall: true,
-      });
-    }
-
-    if (storeData && storeData.isAppInstall) {
-      return res.send("App already installed");
-    }
-
-    const nonce = crypto.randomBytes(8).toString("hex");
-    const redirectUri = `https://f8a0-2405-201-5011-217a-a887-d469-ad15-fa10.ngrok-free.app/shopify/oauth/callback`;
-    const authUrl = `https://${shop}.myshopify.com/admin/oauth/authorize?client_id=${apiKey}&scope=${scopes}&redirect_uri=${redirectUri}&state=${nonce}`;
-
-    res.redirect(authUrl);
-  } catch (error) {
-    logger.error(error);
-  }
-});
-
-router.get("/oauth/callback", async (req, res) => {
-  const apiKey = shopify_api_key;
-  const apiSecret = shopify_api_secret;
-  const { code, shop } = req.query;
-
-  if (!code || !shop) {
-    res.send("Missing code or shop parameter");
-    return;
-  }
-
-  const accessTokenUrl = `https://${shop}/admin/oauth/access_token`;
-  const accessParams = {
-    client_id: apiKey,
-    client_secret: apiSecret,
-    code,
-  };
-
-  try {
-    const response = await axios.post(
-      accessTokenUrl,
-      querystring.stringify(accessParams),
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
-
-    const { access_token } = response.data;
-    const storeName = shop.split(".")[0];
-    const storeData = await store.findOne({
-      where: {
-        storeName,
-      },
-    });
-
-    if (!storeData) {
-      return res.send("Store not found");
-    }
-
-    await store.update(
-      { accessToken: access_token, isAppInstall: true },
-      { where: { storeName: storeName } }
-    );
-
-    res.send("Successfully connected to Shopify!");
-  } catch (error) {
-    logger.error(error);
-    res.send("Error while OAuth process");
-  }
-});
-
-router.get("/fetch-products", async (req, res) => {
-  try {
-    const { shop } = req.query;
-
-    if (!shop) {
-      res.status(400).send("Missing shop parameter");
-      return;
-    }
-
-    const storeData = await store.findOne({
-      where: {
-        storeName: shop,
-        isAppInstall: true,
-      },
-    });
-
-    if (!storeData) {
-      res.status(404).send("Store not found or app not installed");
-      return;
-    }
-
-    const accessToken = storeData.accessToken;
-
-    // Fetch products from Shopify using the accessToken
-    const shopifyApiUrl = `https://${shop}.myshopify.com/admin/api/2022-01/products.json`;
-
-    const response = await axios.get(shopifyApiUrl, {
-      headers: {
-        "X-Shopify-Access-Token": accessToken,
-      },
-    });
-
-    const products = response.data.products;
-
-    let productsData = [];
-    await Promise.all(
-      products.map(async (product) => {
-        const { title, id, handle } = product;
-        const storeId = storeData.id;
-
-        productsData.push({
-          storeId,
-          productTitle: title,
-          productSlug: handle,
-          productId: id,
-          metadata: product,
-        });
-      })
-    );
-
-    await storeProducts.bulkCreate(productsData);
-
-    res.json(products);
-  } catch (error) {
-    logger.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-});
+router.get("/fetch-products", fetchProducts);
 
 module.exports = router;

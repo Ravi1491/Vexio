@@ -5,6 +5,7 @@ import shopifyRouter from "./shopify-routes";
 import sendEmail from "../utils/sendMail";
 import { node_env } from "../../config/default";
 import storeRouter from "./store-routes";
+import webhookRouter from "./webhooks";
 
 const router = express.Router();
 
@@ -39,5 +40,6 @@ router.get("/send-test-email", async (req, res) => {
 router.use("/user", userRouter);
 router.use("/shopify", shopifyRouter);
 router.use("/stores", storeRouter);
+router.use("/webhook", webhookRouter);
 
 module.exports = router;
