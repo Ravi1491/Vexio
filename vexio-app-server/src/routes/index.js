@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
   return res.send("Welcome to Vexio!!!");
 });
 
-router.get("/redirect", async (req, res) => {
+router.get("/email/redirect", async (req, res) => {
   return res.send(req.query);
 })
 
@@ -29,8 +29,8 @@ router.get("/send-test-email", async (req, res) => {
     productName,
     redirectUrl:
       node_env === "development"
-        ? `http://localhost:4000/redirect?email=${customerEmail}&product=${productName}`
-        : `https://vexio-production.up.railway.app/redirect?email=${customerEmail}&product=${productName}`,
+        ? `http://localhost:4000/email/redirect?email=${customerEmail}&product=${productName}`
+        : `https://vexio-production.up.railway.app/email/redirect?email=${customerEmail}&product=${productName}`,
   });
 
   return res.send("Email Sent");
