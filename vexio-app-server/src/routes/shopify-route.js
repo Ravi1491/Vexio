@@ -4,7 +4,7 @@ require("dotenv").config();
 const crypto = require("crypto");
 const axios = require("axios");
 const querystring = require("querystring");
-const Store = require("../models/store"); // Import the Store model
+const Store = require("../models/store");
 
 const router = express.Router();
 
