@@ -86,18 +86,21 @@ export default function Navbar() {
           gap: "40px",
         }}
       >
-        <div
+        <a
           style={{
             paddingLeft: "20px",
             paddingRight: "20px",
             paddingTop: "15px",
             paddingBottom: "15px",
             maxHeight: "max-content",
+            textDecorationLine: "none",
+            color: "black",
           }}
+          href="/login"
         >
           Login
-        </div>
-        <div
+        </a>
+        <a
           style={{
             backgroundColor: "#FF4495",
             paddingLeft: "30px",
@@ -107,11 +110,13 @@ export default function Navbar() {
             borderRadius: "150px",
             cursor: "pointer",
             maxHeight: "max-content",
-            color: 'white'
+            color: "white",
+            textDecorationLine: "none",
           }}
+          href="/signup"
         >
           Sign Up
-        </div>
+        </a>
       </div>
     </div>
   );

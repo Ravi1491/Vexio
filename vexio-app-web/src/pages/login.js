@@ -81,7 +81,7 @@ export default function Login() {
           email: "shalinic@gmail.com",
           password: "Test@123",
         };
-        console.log("post", postData);
+
         const response = await fetch("http://localhost:4000/user/login", {
           method: "POST",
           headers: {
