@@ -107,4 +107,45 @@ router.get("/oauth/callback", async (req, res) => {
   }
 });
 
+router.get("/fetch-products", async (req, res) => {
+  try {
+    const { shop } = req.query;
+
+    if (!shop) {
+      res.status(400).send("Missing shop parameter");
+      return;
+    }
+
+    const storeData = await store.findOne({
+      where: {
+        storeName: shop,
+        isAppInstall: true, // Ensure that the app is installed
+      },
+    });
+
+    if (!storeData) {
+      res.status(404).send("Store not found or app not installed");
+      return;
+    }
+
+    const accessToken = storeData.accessToken;
+
+    // Fetch products from Shopify using the accessToken
+    const shopifyApiUrl = `https://${shop}.myshopify.com/admin/api/2022-01/products.json`;
+
+    const response = await axios.get(shopifyApiUrl, {
+      headers: {
+        "X-Shopify-Access-Token": accessToken,
+      },
+    });
+
+    const products = response.data.products;
+
+    res.json(products);
+  } catch (error) {
+    logger.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 module.exports = router;
