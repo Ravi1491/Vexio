@@ -13,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CookiesProvider, useCookies } from "react-cookie";
+import AccessModal from "../components/AccessModal";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -41,19 +43,16 @@ export default function Login() {
   const [formData, setFormData] = React.useState({
     email: "",
     password: "",
-    checkbox: false,
   });
   const [errors, setErrors] = React.useState({
     email: null,
     password: null,
-    checkbox: null,
   });
 
   const validateForm = () => {
     const newErrors = {
       email: validateEmail(formData.email),
       password: validatePassword(formData.password),
-      checkbox: formData.checkbox ? null : "Checkbox must be checked.",
     };
 
     setErrors(newErrors);
@@ -61,12 +60,12 @@ export default function Login() {
     return Object.values(newErrors).every((error) => error === null);
   };
 
-  const handleCheckboxChange = (e) => {
-    setFormData({
-      ...formData,
-      checkbox: e.target.checked,
-    });
-  };
+  //   const handleCheckboxChange = (e) => {
+  //     setFormData({
+  //       ...formData,
+  //       checkbox: e.target.checked,
+  //     });
+  //   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -78,8 +77,8 @@ export default function Login() {
       try {
         // Make a GET request to your backend API
         const postData = {
-          email: "shalinic@gmail.com",
-          password: "Test@123",
+          email: formData.email,
+          password: formData.password,
         };
 
         const response = await fetch("http://localhost:4000/user/login", {
@@ -97,6 +96,8 @@ export default function Login() {
 
         const result = await response.json();
         setCookie("access_token", result.accessToken, { path: "/" });
+        // navigate("/");
+        // setModalOpen(true);
         //  setData(result);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -144,15 +145,16 @@ export default function Login() {
         ...prevErrors,
         email: validateEmail(formData.email),
         password: validatePassword(formData.password),
-        checkbox: formData.checkbox ? null : "Checkbox must be checked.",
       }));
     }
-  }, [formData.email, formData.password, formData.checkbox]);
+  }, [formData.email, formData.password]);
 
   return (
     <CookiesProvider>
       {cookies.access_token ? (
-        <div>LOGIN Successfully</div>
+        <>
+          <AccessModal isOpen={true} />
+        </>
       ) : (
         <ThemeProvider theme={defaultTheme}>
           <Container component="main" maxWidth="xs">
@@ -205,7 +207,7 @@ export default function Login() {
                   error={Boolean(errors.password)}
                   helperText={errors.password}
                 />
-                <FormControlLabel
+                {/* <FormControlLabel
                   control={
                     <Checkbox
                       checked={formData.checkbox}
@@ -215,7 +217,7 @@ export default function Login() {
                     />
                   }
                   label="Remember me"
-                />
+                /> */}
                 <Button
                   type="submit"
                   fullWidth
