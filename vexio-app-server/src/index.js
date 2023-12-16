@@ -3,6 +3,7 @@ import express from "express";
 
 import logger from "./utils/logger";
 import { port } from "../config/default";
+import cors from "cors";
 
 const app = express();
 const PORT = port;
