@@ -15,6 +15,12 @@ const {
   NODE_ENV,
 } = process.env;
 
+// Define a base domain variable based on the environment
+const BE_DOMAIN =
+  NODE_ENV === "production"
+    ? "https://vexio-production.up.railway.app"
+    : "http://localhost:4000";
+
 module.exports = {
   port: PORT || 4000,
   username: DB_USERNAME,
@@ -30,4 +36,5 @@ module.exports = {
   sender_email: SENDER_EMAIL,
   sendgrid_api_key: SENDGRID_API_KEY,
   node_env: NODE_ENV,
+  be_domain: BE_DOMAIN,
 };

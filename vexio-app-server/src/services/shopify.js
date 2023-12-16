@@ -2,8 +2,7 @@ import axios from "axios";
 
 // Function to register a webhook in Shopify
 export async function registerWebhook(shop, accessToken) {
-  const webhookEndpoint =
-    "https://2ef8-2405-201-5011-217a-a887-d469-ad15-fa10.ngrok-free.app/webhook/order-fulfilled"; // Replace with your actual endpoint
+  const webhookEndpoint = `${be_domain}/webhook/order-fulfilled`;
 
   const webhookPayload = {
     webhook: {

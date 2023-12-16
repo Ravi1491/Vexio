@@ -1,7 +1,11 @@
 import crypto from "crypto";
 import axios from "axios";
 import querystring from "querystring";
-import { shopify_api_key, shopify_api_secret } from "../../config/default";
+import {
+  be_domain,
+  shopify_api_key,
+  shopify_api_secret,
+} from "../../config/default";
 import logger from "../utils/logger";
 import { registerWebhook } from "../services/shopify";
 import { createStore, findOne, updateStore } from "../services/store";
@@ -32,7 +36,7 @@ export async function installApp(req, res) {
     }
 
     // const nonce = crypto.randomBytes(8).toString("hex");
-    const redirectUri = `https://2ef8-2405-201-5011-217a-a887-d469-ad15-fa10.ngrok-free.app/shopify/oauth/callback`;
+    const redirectUri = `${be_domain}/shopify/oauth/callback`;
     const authUrl = `https://${shop}.myshopify.com/admin/oauth/authorize?client_id=${apiKey}&scope=${scopes}&redirect_uri=${redirectUri}`;
 
     res.redirect(authUrl);
