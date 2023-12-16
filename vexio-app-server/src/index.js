@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 const app = express();
 const PORT = port;
 
+app.use(cors());
 app.use(express.json());
 
 const bodyParser = require("body-parser");

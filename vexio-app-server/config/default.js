@@ -10,6 +10,9 @@ const {
   JWT_SECRET,
   SHOPIFY_APP_API_KEY,
   SHOPIFY_APP_API_SECRET_KEY,
+  SENDER_EMAIL,
+  SENDGRID_API_KEY,
+  NODE_ENV,
 } = process.env;
 
 module.exports = {
@@ -24,4 +27,7 @@ module.exports = {
   issuer: "vexio",
   shopify_api_key: SHOPIFY_APP_API_KEY,
   shopify_api_secret: SHOPIFY_APP_API_SECRET_KEY,
+  sender_email: SENDER_EMAIL,
+  sendgrid_api_key: SENDGRID_API_KEY,
+  node_env: NODE_ENV,
 };
