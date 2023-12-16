@@ -1,18 +1,18 @@
 import express from "express";
+import crypto from "crypto";
+import axios from "axios";
+import querystring from "querystring";
+
 import logger from "../utils/logger";
-import model from "../../models";
-import { shopify_api_key, shopify_api_secret } from "../../config/default";
+import Store from "../../models/store";
+
 require("dotenv").config();
-const crypto = require("crypto");
-const axios = require("axios");
-const querystring = require("querystring");
 
 const router = express.Router();
-const store = model.store;
 
 router.get("/install-app", async (req, res) => {
   try {
-    const apiKey = shopify_api_key;
+    const apiKey = process.env.SHOPIFY_API_KEY;
     const scopes =
       "read_products,read_orders, read_analytics, read_orders, read_product_feeds, read_product_listings, read_products";
 
@@ -25,9 +25,16 @@ router.get("/install-app", async (req, res) => {
     }
 
     const nonce = crypto.randomBytes(8).toString("hex");
-    const redirectUri = `https://f8a0-2405-201-5011-217a-a887-d469-ad15-fa10.ngrok-free.app/shopify/oauth/callback`;
+    const redirectUri = `https://f868-112-196-47-10.ngrok-free.app/oauth/callback`;
 
     const authUrl = `https://${shop}.myshopify.com/admin/oauth/authorize?client_id=${apiKey}&scope=${scopes}&redirect_uri=${redirectUri}&state=${nonce}`;
+
+    await Store.create({
+      store_name: shop,
+      email: email || "ravi149185@gmail.com",
+      access_token: "",
+      isAppInstall: false,
+    });
 
     res.redirect(authUrl);
   } catch (error) {
@@ -36,8 +43,8 @@ router.get("/install-app", async (req, res) => {
 });
 
 router.get("/oauth/callback", async (req, res) => {
-  const apiKey = shopify_api_key;
-  const apiSecret = shopify_api_secret;
+  const apiKey = process.env.SHOPIFY_API_KEY;
+  const apiSecret = process.env.SHOPIFY_API_SECRET;
   const { code, shop } = req.query;
 
   if (!code || !shop) {
@@ -64,26 +71,10 @@ router.get("/oauth/callback", async (req, res) => {
     );
 
     const { access_token } = response.data;
-
-    const storeData = await store.findOne({
-      where: {
-        storeName: shop,
-      },
-    });
-
-    if (!storeData) {
-      await store.create({
-        storeName: shop,
-        email: email || "ravi149185@gmail.com",
-        accessToken: access_token,
-        isAppInstall: true,
-      });
-    } else {
-      await store.update(
-        { accessToken: access_token, isAppInstall: true },
-        { where: { storeName: shop } }
-      );
-    }
+    await Store.update(
+      { access_token, isAppInstall: true },
+      { where: { store_name: shop } }
+    );
 
     res.send("Successfully connected to Shopify!");
   } catch (error) {
