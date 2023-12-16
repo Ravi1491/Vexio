@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -13,6 +11,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CookiesProvider, useCookies } from "react-cookie";
+import StoreTable from "../components/StoreTable";
+import AccessModal from "../components/AccessModal";
 
 function Copyright(props) {
   return (
@@ -41,31 +41,21 @@ export default function Login() {
   const [formData, setFormData] = React.useState({
     email: "",
     password: "",
-    checkbox: false,
   });
   const [errors, setErrors] = React.useState({
     email: null,
     password: null,
-    checkbox: null,
   });
 
   const validateForm = () => {
     const newErrors = {
       email: validateEmail(formData.email),
       password: validatePassword(formData.password),
-      checkbox: formData.checkbox ? null : "Checkbox must be checked.",
     };
 
     setErrors(newErrors);
 
     return Object.values(newErrors).every((error) => error === null);
-  };
-
-  const handleCheckboxChange = (e) => {
-    setFormData({
-      ...formData,
-      checkbox: e.target.checked,
-    });
   };
 
   const handleSubmit = async (event) => {
@@ -78,8 +68,8 @@ export default function Login() {
       try {
         // Make a GET request to your backend API
         const postData = {
-          email: "shalinic@gmail.com",
-          password: "Test@123",
+          email: formData.email,
+          password: formData.password,
         };
 
         const response = await fetch("http://localhost:4000/user/login", {
@@ -96,8 +86,27 @@ export default function Login() {
         }
 
         const result = await response.json();
+        console.log("111SSSSTTresponse", result.user.email);
+
+        const response1 = await fetch(
+          `http://localhost:4000/stores/getAllStores?email=${result.user.email}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              // Add any additional headers if needed
+            },
+          }
+        );
+
+        if (!response1.ok) {
+          throw new Error(`HTTP error! Status: ${response1.status}`);
+        }
+
+        const storesData = await response1.json();
+        console.log("Get All Stores response:", storesData);
+
         setCookie("access_token", result.accessToken, { path: "/" });
-        //  setData(result);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -144,16 +153,16 @@ export default function Login() {
         ...prevErrors,
         email: validateEmail(formData.email),
         password: validatePassword(formData.password),
-        checkbox: formData.checkbox ? null : "Checkbox must be checked.",
       }));
     }
-  }, [formData.email, formData.password, formData.checkbox]);
+  }, [formData.email, formData.password]);
 
   return (
     <CookiesProvider>
       {cookies.access_token ? (
-        <div>LOGIN Successfully</div>
+        <AccessModal isOpen={true} />
       ) : (
+        // <AccessModal isOpen={true} />
         <ThemeProvider theme={defaultTheme}>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -205,7 +214,7 @@ export default function Login() {
                   error={Boolean(errors.password)}
                   helperText={errors.password}
                 />
-                <FormControlLabel
+                {/* <FormControlLabel
                   control={
                     <Checkbox
                       checked={formData.checkbox}
@@ -215,7 +224,7 @@ export default function Login() {
                     />
                   }
                   label="Remember me"
-                />
+                /> */}
                 <Button
                   type="submit"
                   fullWidth
