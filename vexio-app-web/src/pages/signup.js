@@ -76,13 +76,42 @@ export default function SignUp() {
     });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    //const data = new FormData(event.currentTarget);
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (validateForm()) {
       // Perform form submission logic here
+      try {
+        // Make a GET request to your backend API
+        const postData = {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+
+          email: formData.email,
+          password: formData.password,
+          username: formData.username,
+        };
+        console.log("post", postData);
+        const response = await fetch("http://localhost:4000/user/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // Add any additional headers if needed
+          },
+          body: postData,
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log("resukt", result);
+        //  setData(result);
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
+      }
+
       console.log(formData);
     } else {
       console.log("Form submission prevented due to validation errors.");

@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { CookiesProvider, useCookies } from "react-cookie";
 
 function Copyright(props) {
   return (
@@ -36,6 +37,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function Login() {
+  const [cookies, setCookie] = useCookies(["access_token"]);
   const [formData, setFormData] = React.useState({
     email: "",
     password: "",
@@ -66,14 +68,39 @@ export default function Login() {
     });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    //  const data = new FormData(event.currentTarget);
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (validateForm()) {
       // Perform form submission logic here
-      console.log(formData);
+      console.log("form", formData);
+
+      try {
+        // Make a GET request to your backend API
+        const postData = {
+          email: "shalinic@gmail.com",
+          password: "Test@123",
+        };
+        console.log("post", postData);
+        const response = await fetch("http://localhost:4000/user/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // Add any additional headers if needed
+          },
+          body: JSON.stringify(postData),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        setCookie("access_token", result.accessToken, { path: "/" });
+        //  setData(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     } else {
       console.log("Form submission prevented due to validation errors.");
     }
@@ -123,93 +150,99 @@ export default function Login() {
   }, [formData.email, formData.password, formData.checkbox]);
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              onChange={handleInputChange("email")}
-              value={formData.email}
-              error={Boolean(errors.email)}
-              helperText={errors.email}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={handleInputChange("password")}
-              value={formData.password}
-              error={Boolean(errors.password)}
-              helperText={errors.password}
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={formData.checkbox}
-                  onChange={handleCheckboxChange}
-                  value="remember"
-                  color="primary"
-                />
-              }
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              disabled={
-                formData.email === "" ||
-                formData.password === "" ||
-                errors.email ||
-                errors.password
-              }
+    <CookiesProvider>
+      {cookies.access_token ? (
+        <div>LOGIN Successfully</div>
+      ) : (
+        <ThemeProvider theme={defaultTheme}>
+          <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+              sx={{
+                marginTop: 8,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
             >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item>
-                <Link href="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
+              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Sign in
+              </Typography>
+              <Box
+                component="form"
+                onSubmit={handleSubmit}
+                noValidate
+                sx={{ mt: 1 }}
+              >
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  onChange={handleInputChange("email")}
+                  value={formData.email}
+                  error={Boolean(errors.email)}
+                  helperText={errors.email}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  onChange={handleInputChange("password")}
+                  value={formData.password}
+                  error={Boolean(errors.password)}
+                  helperText={errors.password}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={formData.checkbox}
+                      onChange={handleCheckboxChange}
+                      value="remember"
+                      color="primary"
+                    />
+                  }
+                  label="Remember me"
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  disabled={
+                    formData.email === "" ||
+                    formData.password === "" ||
+                    errors.email ||
+                    errors.password
+                  }
+                >
+                  Sign In
+                </Button>
+                <Grid container>
+                  <Grid item>
+                    <Link href="/signup" variant="body2">
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+            <Copyright sx={{ mt: 8, mb: 4 }} />
+          </Container>
+        </ThemeProvider>
+      )}
+    </CookiesProvider>
   );
 }
