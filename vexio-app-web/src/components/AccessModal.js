@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Box from "@mui/system/Box";
-import { OutlinedInput } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
@@ -13,15 +11,7 @@ import Typography from "@mui/material/Typography";
 import logo from "../assets/logo.png";
 
 const AccessModal = ({ isOpen, onClose }) => {
-  const [allowAccess, setAllowAccess] = useState(false);
   const navigate = useNavigate();
-  const handleAllowAccess = () => {
-    // Perform actions when access is allowed
-    // e.g., send a request to the server, update state, etc.
-    console.log("Access allowed");
-    setAllowAccess(true);
-    onClose(); // Close the modal after allowing access
-  };
 
   return (
     <Dialog
