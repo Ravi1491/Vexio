@@ -97,7 +97,7 @@ router.get("/oauth/callback", async (req, res) => {
 
     await store.update(
       { accessToken: access_token, isAppInstall: true },
-      { where: { storeName: shop } }
+      { where: { storeName: storeName } }
     );
 
     res.send("Successfully connected to Shopify!");
