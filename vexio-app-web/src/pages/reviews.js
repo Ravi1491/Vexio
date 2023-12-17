@@ -12,7 +12,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-// import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
@@ -33,6 +33,26 @@ export default function Reviews() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [products, setProducts] = useState();
+
+  const getProducts = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:4000/stores/all-products",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // Add any additional headers if needed
+          },
+          // body: JSON.stringify(postData),
+        }
+      );
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div
@@ -66,6 +86,7 @@ export default function Reviews() {
         <Button
           onClick={() => {
             setOpen(true);
+            getProducts();
           }}
           variant="contained"
           style={{
@@ -156,11 +177,19 @@ export default function Reviews() {
               Product:
             </Typography>
             <TextField
-              placeholder="Enter product"
-              id="outlined-basic"
-              variant="outlined"
+              id="outlined-select-currency"
+              select
+              style={{
+                width: "100%",
+              }}
               size="small"
-            />
+            >
+              {/* {currencies.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))} */}
+            </TextField>
           </Box>
           <Button
             onClick={() => {
