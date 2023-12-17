@@ -2,7 +2,7 @@
 import { Model } from "sequelize";
 
 export default (sequelize, DataTypes) => {
-  class user extends Model {
+  class review_receive extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,7 @@ export default (sequelize, DataTypes) => {
     }
   }
 
-  user.init(
+  review_receive.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -21,44 +21,20 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true,
       },
-      firstName: {
-        type: DataTypes.STRING,
+      rating: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        field: "first_name",
+        field: "rating",
       },
-      lastName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        field: "last_name",
-      },
-      username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        isEmail: true,
-      },
-      isEmailVerified: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-        field: "is_email_verified",
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      paymentOrderId: {
+      feedback: {
         type: DataTypes.STRING,
         allowNull: true,
-        field: 'payment_order_id'
+        field: "feedback",
       },
-      paymentStatus: {
+      reviewRequestId: {
         type: DataTypes.STRING,
-        allowNull: true,
-        field: 'payment_status'
+        allowNull: false,
+        field: "review_request_id",
       },
       createdAt: {
         allowNull: false,
@@ -81,13 +57,13 @@ export default (sequelize, DataTypes) => {
       timestamps: true,
       deletedAt: "deleted_at",
       sequelize,
-      modelName: "user",
+      modelName: "review_receive",
     }
   );
 
-  user.associate = function (models) {
+  review_receive.associate = function (models) {
     // associations can be defined here
   };
 
-  return user;
+  return review_receive;
 };

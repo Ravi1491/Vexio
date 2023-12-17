@@ -7,7 +7,6 @@ import {
   shopify_api_secret,
 } from "../../config/default";
 import logger from "../utils/logger";
-import { registerWebhook } from "../services/shopify";
 import {
   createStore,
   deleteStore,
@@ -15,6 +14,7 @@ import {
   updateStore,
 } from "../services/store";
 import { bulkCreateStoreProducts } from "../services/store-products";
+import { registerWebhook } from "./webhook";
 
 export async function installApp(req, res) {
   try {
@@ -30,7 +30,10 @@ export async function installApp(req, res) {
       return;
     }
 
-    const storeData = await findOneStore({ storeName: shop, isAppInstall: true });
+    const storeData = await findOneStore({
+      storeName: shop,
+      isAppInstall: true,
+    });
 
     if (!storeData) {
       await createStore({ shop, email });
@@ -44,7 +47,10 @@ export async function installApp(req, res) {
     const redirectUri = `${be_domain}/shopify/oauth/callback`;
     const authUrl = `https://${shop}.myshopify.com/admin/oauth/authorize?client_id=${apiKey}&scope=${scopes}&redirect_uri=${redirectUri}`;
 
-    res.redirect(authUrl);
+    const response = {
+      authUrl,
+    };
+    res.status(200).send(response);
   } catch (error) {
     logger.error(error);
   }
