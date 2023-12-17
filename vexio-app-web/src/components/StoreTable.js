@@ -234,7 +234,7 @@ export default function StoreTable() {
         setUserData(result);
         console.log("user", result.email);
         const storeListResponse = await fetch(
-          `http://localhost:4000/stores/getAllStores?email=//${result.email}`,
+          `http://localhost:4000/stores/getAllStores?email=${result.email}`,
           //ravi149185@gmail.com`,
 
           //${result.user.email}`,
