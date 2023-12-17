@@ -68,7 +68,7 @@ export default function Reviews() {
           body: JSON.stringify({
             customerEmail: sendEmail,
             customerName: username,
-            productSlug: send,
+            productSlug: selectedProduct,
           }),
         }
       );
@@ -100,7 +100,8 @@ export default function Reviews() {
         }
 
         const result = await response.json();
-        setUserEmail(result.email);
+        // setUserEmail(result.email);
+        setUserEmail("ravi149185@gmail.com");
         console.log(result, "result here");
       } catch (error) {
         console.error("Error fetching data:", error.message);
