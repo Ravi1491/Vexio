@@ -36,7 +36,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function Login() {
-  const [setCookie] = useCookies(["access_token"]);
+  const [cookies, setCookie] = useCookies(["access_token"]);
   const [formData, setFormData] = React.useState({
     email: "",
     password: "",
@@ -45,6 +45,7 @@ export default function Login() {
     email: null,
     password: null,
   });
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const validateForm = () => {
     const newErrors = {
@@ -66,6 +67,7 @@ export default function Login() {
 
       try {
         // Make a GET request to your backend API
+        setIsLoading(true);
         const postData = {
           email: formData.email,
           password: formData.password,
@@ -106,8 +108,10 @@ export default function Login() {
         console.log("Get All Stores response:", storesData);
         navigate("/access_shopify");
         setCookie("access_token", result.accessToken, { path: "/" });
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setIsLoading(false);
       }
     } else {
       console.log("Form submission prevented due to validation errors.");
@@ -226,13 +230,14 @@ export default function Login() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               disabled={
+                isLoading ||
                 formData.email === "" ||
                 formData.password === "" ||
                 errors.email ||
                 errors.password
               }
             >
-              Sign In
+              {isLoading ? "Loading...." : " Sign In"}
             </Button>
             <Grid container>
               <Grid item>
