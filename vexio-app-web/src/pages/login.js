@@ -102,7 +102,9 @@ export default function Login() {
         console.log("111SSSSTTresponse", result.user.email);
 
         const response1 = await fetch(
-          `http://localhost:4000/stores/getAllStores?email=ravi149185@gmail.com`,
+          `http://localhost:4000/stores/getAllStores?email=//${result.user.email}`,
+
+          //ravi149185@gmail.com`,
 
           //${result.user.email}`,
           {

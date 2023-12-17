@@ -234,7 +234,8 @@ export default function StoreTable() {
         setUserData(result);
 
         const storeListResponse = await fetch(
-          `http://localhost:4000/stores/getAllStores?email=ravi149185@gmail.com`,
+          `http://localhost:4000/stores/getAllStores?email=//${result.user.email}`,
+          //ravi149185@gmail.com`,
 
           //${result.user.email}`,
           {
@@ -275,7 +276,7 @@ export default function StoreTable() {
       sx={{ width: "100%", height: "calc(100% - 32px)", position: "relative" }}
     >
       <Navbar />
-      <Box
+      {/* <Box
         sx={{
           color: "#ff4495",
           display: "flex",
@@ -297,7 +298,7 @@ export default function StoreTable() {
         >
           Add new Store
         </Button>
-      </Box>
+      </Box> */}
       <div
         style={{
           position: "absolute",

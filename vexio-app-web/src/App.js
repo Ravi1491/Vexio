@@ -8,6 +8,7 @@ import Reviews from "./pages/reviews";
 import StoreTable from "./components/StoreTable";
 import AccessModal from "./components/AccessModal";
 import { CookiesProvider, useCookies } from "react-cookie";
+import ReviewProduct from "./pages/reviewProduct";
 
 function App() {
   const [cookies] = useCookies(["access_token"]);
@@ -43,6 +44,7 @@ function App() {
             path="/access_shopify"
             element={<AccessModal isOpen={true} />}
           />
+          <Route path="/reviewProduct" element={<ReviewProduct />} />
         </Routes>
       </CookiesProvider>
     </BrowserRouter>
