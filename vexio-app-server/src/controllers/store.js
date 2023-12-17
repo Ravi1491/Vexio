@@ -17,8 +17,13 @@ export async function getAllStores(req, res) {
 
 export async function getAllProducts(req, res) {
   try {
-    const storeId = req.query.storeId;
-    const {count, rows} = await findAllProducts({ storeId });
+    const email = req.query.email;
+
+    const allStores = await findAllStores({ email });
+
+    const storeIds = await allStores.rows.map(a => a.id);
+
+    const {count, rows} = await findAllProducts({ storeId: storeIds });
 
     return res.send({
       count,
