@@ -1,4 +1,5 @@
 import { createReviewReceive, findOneReceived } from "../services/review";
+import logger from "../utils/logger";
 
 export async function acceptEmailReviews(req, res) {
   try {
