@@ -10,7 +10,7 @@ export const findAllStores = async (payload) => {
   return stores;
 };
 
-export const findOne = async (payload) => {
+export const findOneStore = async (payload) => {
   const stores = await storeModel.findOne({
     where: payload,
   });
