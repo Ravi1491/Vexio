@@ -28,7 +28,7 @@ export default function Section2() {
           fontWeight: "500",
         }}
       >
-        Provide Awesome Service With Our Tools
+        We provide awesome services
       </div>
       <div
         style={{
