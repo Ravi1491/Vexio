@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import mail from "../assets/mail.png";
 import send from "../assets/send.png";
 import Button from "@mui/material/Button";
@@ -12,10 +12,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-// import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
+import { useCookies } from "react-cookie";
 
 const style = {
   position: "absolute",
@@ -31,8 +32,61 @@ const style = {
 
 export default function Reviews() {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [cookies, setCookie] = useCookies(["access_token"]);
+
+  const [products, setProducts] = useState();
+  const [userEmail, setUserEmail] = useState("");
+
+  const getProducts = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:4000/stores/all-products",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // Add any additional headers if needed
+          },
+          // body: JSON.stringify(postData),
+        }
+      );
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:4000/user/me`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${cookies.access_token}`,
+            // Add any additional headers if needed
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        setUserEmail(result.email);
+        console.log(result, "result here");
+        // Update state with API response
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
+        // <Alert severity="error">{error.message}</Alert>;
+        // Handle the error as needed
+      }
+    };
+    if (open) {
+      fetchData();
+    }
+  });
 
   return (
     <div
@@ -66,6 +120,7 @@ export default function Reviews() {
         <Button
           onClick={() => {
             setOpen(true);
+            getProducts()
           }}
           variant="contained"
           style={{
@@ -156,11 +211,18 @@ export default function Reviews() {
               Product:
             </Typography>
             <TextField
-              placeholder="Enter product"
-              id="outlined-basic"
-              variant="outlined"
+              id="outlined-select-currency"
+              select
+              style={{
+                width: "100%",
+              }}
               size="small"
-            />
+            >
+              {/* {currencies.map((option) => (
+                
+              ))} */}
+              <MenuItem>123</MenuItem>
+            </TextField>
           </Box>
           <Button
             onClick={() => {

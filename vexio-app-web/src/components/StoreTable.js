@@ -14,61 +14,20 @@ import {
 import Button from "@mui/material/Button";
 import { styled as MuiStyle } from "@mui/material/styles";
 import styled from "@emotion/styled";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import MuiAlert from "@mui/material/Alert";
+import Checkbox from "@mui/material/Checkbox";
+import { useCookies } from "react-cookie";
 
 import Navbar from "./Navbar";
 
-const rows = [
-  {
-    store: "101-0001, Subject (draft)",
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
-    total_products: "55",
-  },
-  {
-    store: "101-0002, Subject (draft)",
-
-    total_products: "45",
-  },
-  {
-    store: "101-0003, Subject (draft)",
-
-    total_products: "25",
-  },
-  {
-    store: "101-0004, Subject (draft)",
-
-    total_products: "35",
-  },
-  {
-    store: "101-0005, Subject (draft)",
-
-    total_products: "55",
-  },
-  {
-    store: "101-0006, Subject (draft)",
-
-    total_products: "55",
-  },
-  {
-    store: "101-0007, Subject (draft)",
-
-    total_products: "45",
-  },
-  {
-    store: "101-0008, Subject (draft)",
-
-    total_products: "25",
-  },
-  {
-    store: "101-0009, Subject (draft)",
-
-    total_products: "35",
-  },
-];
-
-const headerColumns = ["Store", "Total Products"];
-const rowColumns = ["store", "total_products"];
+const headerColumns = ["Store Name", "App", "Install"];
+const rowColumns = ["storeName", "isAppInstall", "install"];
 
 export const StickyTableHead = MuiStyle(TableHead)`
   position: sticky;
@@ -213,8 +172,104 @@ export const ColorWrapper = styled(Box)`
 `;
 
 const DisableTableContainerStyles = { overflowX: "none" };
+
 export default function StoreTable() {
+  const [responseData, setResponseData] = useState([]);
+  const [userData, setUserData] = useState();
+  const [storeName, setStoreName] = useState("");
+  const [cookies, setCookie] = useCookies(["access_token"]);
+  const [isUninstalled, setIsUninstalled] = useState(false);
+
+  async function uninstallHandler(shopName, email) {
+    try {
+      console.log("checkkkk", shopName, email);
+      const data = {
+        shop: shopName,
+        email: email,
+      };
+
+      const response = await fetch(`http://localhost:4000/shopify/uninstall`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          //   Add any additional headers if needed
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      console.log("ddddd", response);
+      // const result = await response.json();
+
+      setIsUninstalled(true);
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
+      <Alert severity="error">{error.message}</Alert>;
+      // Handle the error as needed
+    }
+  }
+
+  useEffect(() => {
+    // Function to call API
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:4000/user/me`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${cookies.access_token}`,
+            // Add any additional headers if needed
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        // Update state with API response
+        setUserData(result);
+
+        const storeListResponse = await fetch(
+          `http://localhost:4000/stores/getAllStores?email=ravi149185@gmail.com`,
+
+          //${result.user.email}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              // Add any additional headers if needed
+            },
+          }
+        );
+
+        if (!storeListResponse.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result1 = await storeListResponse.json();
+
+        // Update state with API response
+
+        setResponseData(result1);
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
+        <Alert severity="error">{error.message}</Alert>;
+        // Handle the error as needed
+      }
+    };
+
+    // Call the API when the component mounts
+
+    fetchData();
+  }, [isUninstalled]);
+
   const navigate = useNavigate();
+  console.log("resposnse", responseData.data);
+  const rows = responseData.data;
   return (
     <Box
       sx={{ width: "100%", height: "calc(100% - 32px)", position: "relative" }}
@@ -255,7 +310,9 @@ export default function StoreTable() {
       ></div>
       <TableContainer
         sx={
-          rows.length > 0 ? TableContainerStyles : DisableTableContainerStyles
+          rows && rows.length > 0
+            ? TableContainerStyles
+            : DisableTableContainerStyles
         }
       >
         <Table stickyHeader aria-label="sticky table" sx={TableRootStyle}>
@@ -290,74 +347,91 @@ export default function StoreTable() {
           </StickyTableHead>
 
           <TableBody>
-            {rows.map((row, index) => {
-              return (
-                <>
-                  <StyledTableRow
-                    hover
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={`row-${index}-${row.id}`}
-                  >
-                    {rowColumns.map((column) => (
-                      <>
-                        <TableCell
-                          //  key={`detail-${parentKey}`}
-                          sx={{
-                            pl: "30px!important",
-                            position: "sticky",
-                            left: 20,
-                            zIndex: 1,
-                            backgroundColor: "white",
-                          }}
-                        >
-                          {column === "store" && (
-                            <ColorWrapper>
-                              {rows.map(({ r }) => (
-                                <div
-                                  key={r}
-                                  style={{
-                                    backgroundColor: "rgb(252, 220, 235)",
-                                  }}
-                                ></div>
-                              ))}
-                            </ColorWrapper>
-                          )}
-                          <PatientDetailBox>
-                            <Stack>
-                              <Box>
-                                <Typography
-                                  variant="body1"
-                                  fontFamily={"inherit"}
-                                  display="inline-block"
-                                  sx={
-                                    column === "store"
-                                      ? {
-                                          textDecoration: "underline",
-                                          cursor: "pointer",
-                                          color: "rgb(46, 136, 246)",
+            {rows &&
+              rows.map((row, index) => {
+                return (
+                  <>
+                    <StyledTableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={`row-${index}-${row.id}`}
+                    >
+                      {rowColumns.map((column) => (
+                        <>
+                          <TableCell
+                            //  key={`detail-${parentKey}`}
+                            sx={{
+                              pl: "30px!important",
+                              position: "sticky",
+                              left: 20,
+                              zIndex: 1,
+                              backgroundColor: "white",
+                            }}
+                          >
+                            {column === "storeName" && (
+                              <ColorWrapper>
+                                {rows.map(({ r }) => (
+                                  <div
+                                    key={r}
+                                    style={{
+                                      backgroundColor: "rgb(252, 220, 235)",
+                                    }}
+                                  ></div>
+                                ))}
+                              </ColorWrapper>
+                            )}
+                            <PatientDetailBox>
+                              <Stack>
+                                <Box>
+                                  <Typography
+                                    variant="body1"
+                                    fontFamily={"inherit"}
+                                    display="inline-block"
+                                    sx={
+                                      column === "storeName"
+                                        ? {
+                                            // textDecoration: "underline",
+                                            // cursor: "pointer",
+                                            color: "rgb(46, 136, 246)",
+                                          }
+                                        : {}
+                                    }
+                                  >
+                                    {console.log("column", column)}
+                                    {column === "isAppInstall" &&
+                                    row[`${column}`] ? (
+                                      "yes"
+                                    ) : column === "install" &&
+                                      row["isAppInstall"] ? (
+                                      <Button
+                                        id={new Date()}
+                                        style={{ textTransform: "none" }}
+                                        onClick={() =>
+                                          uninstallHandler(
+                                            row["storeName"],
+                                            row["email"]
+                                          )
                                         }
-                                      : {}
-                                  }
-                                  // onClick={() =>
-                                  //   column === "store" &&
-                                  //   setShowPatientDetailModal(
-                                  //     !showPatientDetailModal
-                                  //   )
-                                  // }
-                                >
-                                  {row[`${column}`]}
-                                </Typography>
-                              </Box>
-                            </Stack>
-                          </PatientDetailBox>
-                        </TableCell>
-                      </>
-                    ))}
-                  </StyledTableRow>
-                </>
-              );
-            })}
+                                      >
+                                        Uninstall
+                                      </Button>
+                                    ) : (
+                                      "-"
+                                    )}
+
+                                    {row[`${column}`]}
+                                  </Typography>
+                                </Box>
+                              </Stack>
+                            </PatientDetailBox>
+                          </TableCell>
+                        </>
+                      ))}
+                    </StyledTableRow>
+                  </>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>

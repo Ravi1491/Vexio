@@ -33,6 +33,7 @@ export default () => {
                   customerName: webhook.customerName,
                   companyName: store.storeName,
                   productName: webhook.productName,
+                  productImage: product.metadata?.image.src,
                   redirectUrl: `${fe_domain}/email/redirect?email=${webhook.customerEmail}&product=${product.productSlug}&request_id=${request.id}`,
                 });
 
@@ -51,4 +52,4 @@ export default () => {
       );
     }
   });
-}
+};
