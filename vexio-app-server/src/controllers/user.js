@@ -40,7 +40,13 @@ export async function register(req, res) {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    res.status(201).send(newUser);
+    res
+      .status(201)
+      .send({
+        newUser,
+        accessToken: jwtToken.token,
+        expiresIn: jwtToken.expiresIn,
+      });
   } catch (error) {
     logger.error(error);
     res.status(400).send(error);
