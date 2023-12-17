@@ -3,6 +3,7 @@ import axios from "axios";
 import querystring from "querystring";
 import {
   be_domain,
+  fe_domain,
   shopify_api_key,
   shopify_api_secret,
 } from "../../config/default";
