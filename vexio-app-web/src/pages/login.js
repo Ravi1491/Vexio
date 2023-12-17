@@ -102,7 +102,9 @@ export default function Login() {
         console.log("111SSSSTTresponse", result.user.email);
 
         const response1 = await fetch(
-          `http://localhost:4000/stores/getAllStores?email=${result.user.email}`,
+          `http://localhost:4000/stores/getAllStores?email=ravi149185@gmail.com`,
+
+          //${result.user.email}`,
           {
             method: "GET",
             headers: {
@@ -121,7 +123,9 @@ export default function Login() {
 
         if (result.accessToken !== undefined) {
           setCookie("access_token", result.accessToken, { path: "/" });
-          navigate("/access_shopify");
+          storesData.count > 0
+            ? navigate("/storeList")
+            : navigate("/access_shopify");
         }
         setIsLoading(false);
       } catch (error) {
