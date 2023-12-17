@@ -7,6 +7,7 @@ import Section4 from "../components/Section4";
 export default function Home() {
   return (
     <div
+    className=""
       style={{
         padding: "24px",
         display: "flex",
