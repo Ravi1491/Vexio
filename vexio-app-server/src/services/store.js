@@ -1,6 +1,7 @@
 import model from "../../models";
 
 const storeModel = model.store;
+const storeProductModel = model.store_product;
 
 export const findAllStores = async (payload) => {
   const stores = await storeModel.findAndCountAll({
@@ -10,7 +11,13 @@ export const findAllStores = async (payload) => {
   return stores;
 };
 
-export const findOne = async (payload) => {
+export const findAllProducts = async () => {
+  const products = await storeProductModel.findAndCountAll();
+
+  return products;
+};
+
+export const findOneStore = async (payload) => {
   const stores = await storeModel.findOne({
     where: payload,
   });

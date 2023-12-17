@@ -5,6 +5,8 @@ import logger from "./utils/logger";
 import { port } from "../config/default";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { cronJob } from "./cron";
+
 const bodyParser = require("body-parser");
 
 const app = express();
@@ -16,6 +18,8 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cookieParser());
+
+cronJob();
 
 app.use("/", require("./routes/index"));
 

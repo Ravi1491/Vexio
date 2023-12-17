@@ -11,7 +11,7 @@ import { registerWebhook } from "../services/shopify";
 import {
   createStore,
   deleteStore,
-  findOne,
+  findOneStore,
   updateStore,
 } from "../services/store";
 import { bulkCreateStoreProducts } from "../services/store-products";
@@ -30,7 +30,7 @@ export async function installApp(req, res) {
       return;
     }
 
-    const storeData = await findOne({ storeName: shop, isAppInstall: true });
+    const storeData = await findOneStore({ storeName: shop, isAppInstall: true });
 
     if (!storeData) {
       await createStore({ shop, email });
@@ -83,7 +83,7 @@ export async function oAuthCallback(req, res) {
 
     const { access_token } = response.data;
     const storeName = shop.split(".")[0];
-    const storeData = await findOne({ storeName });
+    const storeData = await findOneStore({ storeName });
 
     if (!storeData) {
       return res.send("Store not found");
@@ -113,7 +113,7 @@ export async function uninstallApp(req, res) {
       return;
     }
 
-    const storeData = await findOne({ storeName: shop, email });
+    const storeData = await findOneStore({ storeName: shop, email });
     if (!storeData) {
       res.status(404).send("Store not found");
       return;
@@ -153,7 +153,7 @@ export async function fetchProducts(req, res) {
       return;
     }
 
-    const storeData = await findOne({
+    const storeData = await findOneStore({
       storeName: shop,
       isAppInstall: true,
     });
