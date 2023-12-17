@@ -1,9 +1,26 @@
-import model from "../../models";
 import logger from "../utils/logger";
 import { createRequest, findOneRequest } from "./review-request";
 import { findOne } from "./store-products";
+import model from "../../models";
 
 const webhookModel = model.webhook;
+
+export const findOneWebhook = async (payload) => {
+  const webhook = await webhookModel.findOne({
+    where: payload,
+  });
+
+  return webhook;
+};
+
+export const findAllWebhooks = async (payload) => {
+  const webhooks = await webhookModel.findAll({
+    where: payload,
+  });
+
+  return webhooks;
+};
+
 
 export async function handleOrderFulfilled(webhookData) {
   try {
@@ -63,11 +80,3 @@ export async function createWebhook(payload) {
     logger.error("Error while saving webhook", error);
   }
 }
-
-export const findOneWebhook = async (payload) => {
-  const webhook = await webhookModel.findOne({
-    where: payload,
-  });
-
-  return webhook;
-};

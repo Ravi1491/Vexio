@@ -5,6 +5,7 @@ import logger from "../utils/logger";
 import { findOne } from "../services/store-products";
 import { findOneStore } from "../services/store";
 import { createRequest } from "../services/review-request";
+import { ReviewStatus } from "../utils/constants";
 
 const router = express.Router();
 
@@ -24,7 +25,12 @@ router.post("/send-email", async (req, res) => {
       res.status(400).send("Store not found");
     }
 
-    const newRequest = await createRequest({ productSlug, customerEmail, productId: product.id });
+    const newRequest = await createRequest({
+      productSlug,
+      customerEmail,
+      productId: product.id,
+      status: ReviewStatus.SENT,
+    });
 
     sendEmail(customerEmail, {
       templateName: "product_review",
