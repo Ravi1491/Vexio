@@ -143,7 +143,7 @@ const ReviewProduct = () => {
               <ProductTitle>
                 {productData?.ProductTitle
                   ? productData.ProductTitle
-                  : "The Ultimate Smartwatch"}
+                  : "The Ultimate Smartwatch!"}
               </ProductTitle>
               <Box sx={{ paddingRight: "24px" }}>
                 <ProductDescription>

@@ -232,9 +232,9 @@ export default function StoreTable() {
 
         // Update state with API response
         setUserData(result);
-
+        console.log("user", result.email);
         const storeListResponse = await fetch(
-          `http://localhost:4000/stores/getAllStores?email=//${result.user.email}`,
+          `http://localhost:4000/stores/getAllStores?email=//${result.email}`,
           //ravi149185@gmail.com`,
 
           //${result.user.email}`,
@@ -269,7 +269,7 @@ export default function StoreTable() {
   }, [isUninstalled]);
 
   const navigate = useNavigate();
-  console.log("resposnse", responseData.data);
+  console.log("resposnse", responseData);
   const rows = responseData.data;
   return (
     <Box
