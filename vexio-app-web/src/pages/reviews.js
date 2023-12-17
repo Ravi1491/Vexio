@@ -37,19 +37,24 @@ export default function Reviews() {
   const [cookies, setCookie] = useCookies(["access_token"]);
 
   const [products, setProducts] = useState();
+  const [isProductLoading, setIsProductsLoading] = useState(false);
   const [userEmail, setUserEmail] = useState("");
-
+  console.log(products, "state prpd");
   const getProducts = React.useCallback(async () => {
     try {
+      setIsProductsLoading(true);
       const response = await axios.get(
         `http://localhost:4000/stores/all-products?email=${userEmail}`
       );
-      console.log(response, "products here");
+      setProducts(response.data);
+      console.log(response.data, "products here");
+      setIsProductsLoading(false);
     } catch (err) {
+      setIsProductsLoading(false);
       console.log(err);
     }
   }, [userEmail]);
-
+  console.log(isProductLoading, "loading");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -58,7 +63,6 @@ export default function Reviews() {
           headers: {
             "Content-Type": "application/json",
             Authorization: `${cookies.access_token}`,
-            // Add any additional headers if needed
           },
         });
 
@@ -69,11 +73,8 @@ export default function Reviews() {
         const result = await response.json();
         setUserEmail(result.email);
         console.log(result, "result here");
-        // Update state with API response
       } catch (error) {
         console.error("Error fetching data:", error.message);
-        // <Alert severity="error">{error.message}</Alert>;
-        // Handle the error as needed
       }
     };
     if (open) {
@@ -214,10 +215,17 @@ export default function Reviews() {
               }}
               size="small"
             >
-              {/* {currencies.map((option) => (
-                
-              ))} */}
-              <MenuItem>123</MenuItem>
+              {isProductLoading ? (
+                <Typography>Loading...</Typography>
+              ) : products && products.count && products.count === 0 ? (
+                <Typography>No Products</Typography>
+              ) : (
+                products &&
+                products.data &&
+                products.data.map((item) => {
+                  <MenuItem>{item}</MenuItem>;
+                })
+              )}
             </TextField>
           </Box>
           <Button
