@@ -6,9 +6,9 @@ router.post("/order-fulfilled", async (req, res) => {
   try {
     // Verify the request is from Shopify
     // Implement request verification logic here
-    console.log("WEBHOOK RECEIVED", req.body);
     // Parse the incoming webhook payload
     const webhookData = req.body;
+    console.log("WEBHOOK RECEIVED", req.body);
 
     // Handle the specific event based on the 'topic' in the payload
     switch (webhookData.topic) {

@@ -8,7 +8,12 @@ import {
 } from "../../config/default";
 import logger from "../utils/logger";
 import { registerWebhook } from "../services/shopify";
-import { createStore, findOne, updateStore } from "../services/store";
+import {
+  createStore,
+  deleteStore,
+  findOne,
+  updateStore,
+} from "../services/store";
 import { bulkCreateStoreProducts } from "../services/store-products";
 
 export async function installApp(req, res) {
@@ -25,7 +30,7 @@ export async function installApp(req, res) {
       return;
     }
 
-    const storeData = await findOne({ storeName: shop });
+    const storeData = await findOne({ storeName: shop, isAppInstall: true });
 
     if (!storeData) {
       await createStore({ shop, email });
@@ -92,6 +97,47 @@ export async function oAuthCallback(req, res) {
   } catch (error) {
     logger.error(error);
     res.send("Error while OAuth process");
+  }
+}
+
+// Import necessary modules and dependencies
+export async function uninstallApp(req, res) {
+  try {
+    const { shop, email } = req.body;
+
+    if (!shop) {
+      res.status(400).send("Missing shop parameter");
+      return;
+    }
+
+    const storeData = await findOne({ storeName: shop, email });
+    if (!storeData) {
+      res.status(404).send("Store not found");
+      return;
+    }
+
+    const revokeUrl = `https://${shop}.myshopify.com/admin/api_permissions/current.json`;
+    const headers = {
+      "X-Shopify-Access-Token": storeData.accessToken,
+      content_type: "application/json",
+      accept: "application/json",
+    };
+
+    const response = await axios.delete(revokeUrl, {
+      headers,
+    });
+
+    if (response.status !== 200) {
+      res.status(500).send("Error while uninstalling app");
+      return;
+    }
+
+    await deleteStore({ storeName: shop, email });
+
+    res.send("App successfully uninstalled");
+  } catch (error) {
+    logger.error(error);
+    res.status(500).send("Internal Server Error");
   }
 }
 

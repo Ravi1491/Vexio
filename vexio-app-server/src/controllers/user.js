@@ -89,3 +89,12 @@ export async function login(req, res) {
     res.status(400).send(error);
   }
 }
+
+export async function userDetails(req, res) {
+  try {
+    res.status(200).send(req.user);
+  } catch (error) {
+    logger.error(error);
+    res.status(400).send(error);
+  }
+}
