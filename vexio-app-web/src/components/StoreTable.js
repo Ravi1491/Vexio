@@ -188,14 +188,17 @@ export default function StoreTable() {
         email: email,
       };
 
-      const response = await fetch(`http://localhost:4000/shopify/uninstall`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          //   Add any additional headers if needed
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `https://vexio-production.up.railway.app/shopify/uninstall`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            //   Add any additional headers if needed
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -215,14 +218,17 @@ export default function StoreTable() {
     // Function to call API
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/user/me`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `${cookies.access_token}`,
-            // Add any additional headers if needed
-          },
-        });
+        const response = await fetch(
+          `https://vexio-production.up.railway.app/user/me`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `${cookies.access_token}`,
+              // Add any additional headers if needed
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -234,7 +240,7 @@ export default function StoreTable() {
         setUserData(result);
         console.log("user", result.email);
         const storeListResponse = await fetch(
-          `http://localhost:4000/stores/getAllStores?email=//${result.email}`,
+          `https://vexio-production.up.railway.app/stores/getAllStores?email=//${result.email}`,
           //ravi149185@gmail.com`,
 
           //${result.user.email}`,
