@@ -160,8 +160,7 @@ export async function fetchAllProducts(storeName) {
     });
 
     if (!storeData) {
-      res.status(404).send("Store not found or app not installed");
-      return;
+      return "Store not found or app not installed";
     }
 
     const accessToken = storeData.accessToken;
@@ -195,10 +194,9 @@ export async function fetchAllProducts(storeName) {
 
     await bulkCreateStoreProducts(productsData);
 
-    res.json(products);
+    return products;
   } catch (error) {
     logger.error(error);
-    res.status(500).send("Internal Server Error");
   }
 }
 
