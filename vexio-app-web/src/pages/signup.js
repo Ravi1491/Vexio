@@ -13,6 +13,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useCookies } from "react-cookie";
+import MuiAlert from "@mui/material/Alert";
+import { useNavigate } from "react-router-dom";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function Copyright(props) {
   return (
@@ -37,6 +43,9 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = React.useState(null);
+
   const [cookies, setCookie] = useCookies(["access_token"]);
   const [formData, setFormData] = React.useState({
     firstName: "",
@@ -107,15 +116,37 @@ export default function SignUp() {
         });
 
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          console.log("reeeee", response);
+          setErrorMessage("User already exists");
+          setFormData({
+            firstName: "",
+            lastName: "",
+            username: "",
+            email: "",
+            password: "",
+            checkbox: false,
+          });
+          throw new Error(`User already exists`);
         }
 
         const result = await response.json();
-        setCookie("access_token", result.accessToken, { path: "/" });
+
+        // if (result.message === "User already exists") {
+        //   <Alert severity="error">This is an error message!</Alert>;
+        // }
+
+        if (result.accessToken !== undefined) {
+          setCookie("access_token", result.accessToken, { path: "/" });
+          navigate("/access_shopify");
+        }
         setIsLoading(false);
         //  setData(result);
       } catch (error) {
         console.error("Error fetching data:", error.message);
+        setErrorMessage(error.message);
+
+        <Alert severity="error">{error.message}</Alert>;
+
         setIsLoading(false);
       }
 
@@ -316,6 +347,10 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
+
+        {errorMessage !== null && (
+          <Alert severity="error">{errorMessage}</Alert>
+        )}
         <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>

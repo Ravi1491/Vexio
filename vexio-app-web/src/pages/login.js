@@ -12,6 +12,11 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function Copyright(props) {
   return (
@@ -36,6 +41,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function Login() {
+  const [errorMessage, setErrorMessage] = React.useState(null);
   const [cookies, setCookie] = useCookies(["access_token"]);
   const [formData, setFormData] = React.useState({
     email: "",
@@ -83,6 +89,12 @@ export default function Login() {
         });
 
         if (!response.ok) {
+          setErrorMessage(`HTTP error! Status: ${response.status}`);
+          setFormData({
+            email: "",
+            password: "",
+          });
+
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
@@ -106,11 +118,18 @@ export default function Login() {
 
         const storesData = await response1.json();
         console.log("Get All Stores response:", storesData);
-        navigate("/access_shopify");
-        setCookie("access_token", result.accessToken, { path: "/" });
+
+        if (result.accessToken !== undefined) {
+          setCookie("access_token", result.accessToken, { path: "/" });
+          navigate("/access_shopify");
+        }
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error.message);
+        setErrorMessage(error.message);
+
+        <Alert severity="error">{error.message}</Alert>;
+
         setIsLoading(false);
       }
     } else {
@@ -248,6 +267,9 @@ export default function Login() {
             </Grid>
           </Box>
         </Box>
+        {errorMessage !== null && (
+          <Alert severity="error">{errorMessage}</Alert>
+        )}
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
