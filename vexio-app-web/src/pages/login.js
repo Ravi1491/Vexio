@@ -10,9 +10,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { CookiesProvider, useCookies } from "react-cookie";
-import StoreTable from "../components/StoreTable";
-import AccessModal from "../components/AccessModal";
+import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
@@ -38,7 +36,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function Login() {
-  const [cookies, setCookie] = useCookies(["access_token"]);
+  const [setCookie] = useCookies(["access_token"]);
   const [formData, setFormData] = React.useState({
     email: "",
     password: "",
