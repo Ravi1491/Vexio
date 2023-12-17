@@ -1,10 +1,13 @@
 import express from "express";
 import { validate } from "express-validation";
 
-import { login, register } from "../controllers/user";
+import { login, register, userDetails } from "../controllers/user";
 import { userValidations } from "../validations/user";
+import authenticateUser from "../auth/auth";
 
 const router = express.Router();
+
+router.get("/me", authenticateUser, userDetails);
 
 router.post(
   "/signup",
