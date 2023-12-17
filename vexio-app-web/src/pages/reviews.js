@@ -17,6 +17,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import { useCookies } from "react-cookie";
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -38,24 +39,16 @@ export default function Reviews() {
   const [products, setProducts] = useState();
   const [userEmail, setUserEmail] = useState("");
 
-  const getProducts = async () => {
+  const getProducts = React.useCallback(async () => {
     try {
-      const response = await fetch(
-        "http://localhost:4000/stores/all-products",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            // Add any additional headers if needed
-          },
-          // body: JSON.stringify(postData),
-        }
+      const response = await axios.get(
+        `http://localhost:4000/stores/all-products?email=${userEmail}`
       );
-      console.log(response);
+      console.log(response, "products here");
     } catch (err) {
       console.log(err);
     }
-  };
+  }, [userEmail]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,7 +79,10 @@ export default function Reviews() {
     if (open) {
       fetchData();
     }
-  });
+    if (userEmail !== "") {
+      getProducts();
+    }
+  }, [cookies.access_token, getProducts, open, userEmail]);
 
   return (
     <div
@@ -120,7 +116,7 @@ export default function Reviews() {
         <Button
           onClick={() => {
             setOpen(true);
-            getProducts()
+            // getProducts();
           }}
           variant="contained"
           style={{
