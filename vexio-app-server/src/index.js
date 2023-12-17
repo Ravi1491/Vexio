@@ -5,7 +5,7 @@ import logger from "./utils/logger";
 import { port } from "../config/default";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { cronJob } from "./cron";
+// import cronJob from "./cron";
 
 const bodyParser = require("body-parser");
 
@@ -19,9 +19,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
-cronJob();
-
 app.use("/", require("./routes/index"));
+
+// cronJob();
 
 app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);

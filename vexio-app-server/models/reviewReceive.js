@@ -2,7 +2,7 @@
 import { Model } from "sequelize";
 
 export default (sequelize, DataTypes) => {
-  class review_request extends Model {
+  class review_receive extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,7 @@ export default (sequelize, DataTypes) => {
     }
   }
 
-  review_request.init(
+  review_receive.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -21,26 +21,20 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true,
       },
-      productSlug: {
+      rating: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: "rating",
+      },
+      feedback: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        field: "feedback",
+      },
+      reviewRequestId: {
         type: DataTypes.STRING,
         allowNull: false,
-        field: "product_slug",
-      },
-      customerEmail: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        field: "customer_email",
-      },
-      productId: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        field: "product_id",
-      },
-      status: {
-        type: DataTypes.ENUM('PENDING', 'SENT', 'RECEIVED'),
-        allowNull: false,
-        defaultValue: 'PENDING',
-        field: 'status'
+        field: "review_request_id",
       },
       createdAt: {
         allowNull: false,
@@ -63,13 +57,13 @@ export default (sequelize, DataTypes) => {
       timestamps: true,
       deletedAt: "deleted_at",
       sequelize,
-      modelName: "review_request",
+      modelName: "review_receive",
     }
   );
 
-  review_request.associate = function (models) {
+  review_receive.associate = function (models) {
     // associations can be defined here
   };
 
-  return review_request;
+  return review_receive;
 };

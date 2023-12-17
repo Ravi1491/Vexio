@@ -103,7 +103,7 @@ export default function Navbar() {
               borderRadius: "150px",
               cursor: "pointer",
               maxHeight: "max-content",
-              textDecoration: 'none',
+              textDecoration: "none",
               color: "white",
             }}
             href="/signup"

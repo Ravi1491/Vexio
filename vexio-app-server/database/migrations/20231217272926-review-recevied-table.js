@@ -3,33 +3,27 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("review_requests", {
+    await queryInterface.createTable("review_receives", {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         primaryKey: true,
       },
-      productSlug: {
+      rating: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        field: "rating",
+      },
+      feedback: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        field: "feedback",
+      },
+      reviewRequestId: {
         type: Sequelize.STRING,
         allowNull: false,
-        field: "product_slug",
-      },
-      customerEmail: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        field: "customer_email",
-      },
-      productId: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        field: "product_id",
-      },
-      status: {
-        type: Sequelize.ENUM('PENDING', 'SENT', 'RECEIVED'),
-        allowNull: false,
-        defaultValue: 'PENDING',
-        field: 'status'
+        field: "review_request_id",
       },
       createdAt: {
         allowNull: false,
@@ -48,6 +42,6 @@ module.exports = {
     });
   },
   down: async (queryInterface) => {
-    await queryInterface.dropTable("review_requests");
+    await queryInterface.dropTable("review_receives");
   },
 };

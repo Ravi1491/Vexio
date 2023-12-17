@@ -11,8 +11,10 @@ export const findAllStores = async (payload) => {
   return stores;
 };
 
-export const findAllProducts = async () => {
-  const products = await storeProductModel.findAndCountAll();
+export const findAllProducts = async (payload) => {
+  const products = await storeProductModel.findAndCountAll({
+    where: payload,
+  });
 
   return products;
 };

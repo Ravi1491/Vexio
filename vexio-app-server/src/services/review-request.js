@@ -10,6 +10,20 @@ export const findOneRequest = async (payload) => {
   return request;
 };
 
+export const findAllRequests = async (payload) => {
+  const requests = await reviewRequestModel.findAll({
+    where: payload,
+  });
+
+  return requests;
+};
+
 export const createRequest = async (payload) => {
   return reviewRequestModel.create({ ...payload });
+};
+
+export const updateRequest = async (payload, condition) => {
+  return reviewRequestModel.update(payload, {
+    where: condition,
+  });
 };
