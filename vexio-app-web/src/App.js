@@ -21,7 +21,7 @@ function App() {
             path="/login"
             element={
               cookies.access_token !== undefined ? (
-                <Navigate to="/access_shopify" />
+                <Navigate to="/storeList" />
               ) : (
                 <Login />
               )
@@ -31,7 +31,7 @@ function App() {
             path="/signup"
             element={
               cookies.access_token !== undefined ? (
-                <Navigate to="/access_shopify" />
+                <Navigate to="/storeList" />
               ) : (
                 <SignUp />
               )
