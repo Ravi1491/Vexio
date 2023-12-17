@@ -1,5 +1,9 @@
-import { createReviewReceive, findOneReceived, getAllReviewRequests } from "../services/review";
-import { findAllProducts } from "../services/store";
+import {
+  createReviewReceive,
+  findOneReceived,
+  getAllReviewRequests,
+} from "../services/review";
+import { findAllProducts, findAllStores } from "../services/store";
 
 export async function acceptEmailReviews(req, res) {
   try {
@@ -21,13 +25,19 @@ export async function acceptEmailReviews(req, res) {
 
 export async function getReviewRequest(req, res) {
   try {
-    const storeId = req.query.storeId;
+    const email = req.query.email;
 
-    const { rows } = await findAllProducts({ storeId });
+    const allStores = await findAllStores({ email });
 
-    const productIds = await rows.map(a => a.id);
+    const storeIds = await allStores.rows.map((a) => a.id);
 
-    let reviewsRequested = await getAllReviewRequests({productId: productIds});
+    const { rows } = await findAllProducts({ storeId: storeIds });
+
+    const productIds = await rows.map((a) => a.id);
+
+    let reviewsRequested = await getAllReviewRequests({
+      productId: productIds,
+    });
 
     res.status(200).send(reviewsRequested);
   } catch (error) {
