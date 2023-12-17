@@ -131,10 +131,6 @@ export default function SignUp() {
 
         const result = await response.json();
 
-        // if (result.message === "User already exists") {
-        //   <Alert severity="error">This is an error message!</Alert>;
-        // }
-
         if (result.accessToken !== undefined) {
           setCookie("access_token", result.accessToken, { path: "/" });
           navigate("/access_shopify");
@@ -329,7 +325,8 @@ export default function SignUp() {
                 errors.firstName ||
                 errors.lastName ||
                 errors.password ||
-                errors.username
+                errors.username ||
+                isLoading
               }
               type="submit"
               fullWidth

@@ -44,10 +44,9 @@ const AccessModal = ({ isOpen, onClose }) => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const result = await response.json();
-      setIsLoading(false);
-      window.location.href = result.authUrl;
 
-      // setIsLoading(false);
+      window.location.href = result.authUrl;
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error.message);
       // setErrorMessage(error.message);
@@ -90,7 +89,7 @@ const AccessModal = ({ isOpen, onClose }) => {
     if (isOpen) {
       fetchData();
     }
-  }, [isOpen]);
+  }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
   console.log("responseData", responseData, storeName);
   return (
     <Dialog
@@ -196,7 +195,7 @@ const AccessModal = ({ isOpen, onClose }) => {
                   },
                 }}
               >
-                Yes, Continue to shopify
+                {isLoading ? "Connecting..." : "Yes, Continue to shopify"}
               </Button>
             </Box>
             <Box sx={{ paddingLeft: "20px" }}>
