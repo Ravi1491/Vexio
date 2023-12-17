@@ -1,55 +1,56 @@
-import { FaStar, FaStarHalfAlt } from "react-icons/fa";
-import { AiOutlineStar } from "react-icons/ai";
+import "../App.css";
 
-import styled from "@emotion/styled";
+import React, { useState } from "react";
 
-const Star = ({ stars, reviews }) => {
-  const ratingStar = Array.from({ length: 5 }, (elem, index) => {
-    let number = index + 0.5;
+const StarRating = ({ rating, onRatingChange }) => {
+  const [hoveredRating, setHoveredRating] = useState(0);
+
+  const handleStarClick = (index) => {
+    onRatingChange(index);
+  };
+
+  const handleStarHover = (index) => {
+    setHoveredRating(index);
+  };
+
+  const handleStarLeave = () => {
+    setHoveredRating(0);
+  };
+
+  const getStarIcon = (index) => {
+    const filled = index <= (hoveredRating || rating);
+    const halfFilled =
+      index - 0.5 <= (hoveredRating || rating) &&
+      index > (hoveredRating || rating);
 
     return (
-      <span key={index}>
-        {stars >= index + 1 ? (
-          <FaStar className="icon" />
-        ) : stars >= number ? (
-          <FaStarHalfAlt className="icon" />
-        ) : (
-          <AiOutlineStar className="icon" />
-        )}
+      <span
+        key={index}
+        className={`star ${filled ? "filled" : ""} ${
+          halfFilled ? "half-filled" : ""
+        }`}
+        onClick={() => handleStarClick(index)}
+        onMouseEnter={() => handleStarHover(index)}
+        onMouseLeave={handleStarLeave}
+      >
+        {filled ? "\u2605" : "\u2606"}{" "}
+        {/* Unicode character for filled and empty stars */}
       </span>
     );
-  });
+  };
 
-  return (
-    <Wrapper>
-      <div className="icon-style">
-        {ratingStar}
-        <p>({reviews} customer reviews)</p>
-      </div>
-    </Wrapper>
-  );
+  const renderStars = () => {
+    const stars = [];
+    const totalStars = 5;
+
+    for (let i = 1; i <= totalStars; i++) {
+      stars.push(getStarIcon(i));
+    }
+
+    return stars;
+  };
+
+  return <div className="star-rating">{renderStars()}</div>;
 };
 
-const Wrapper = styled.section`
-  .icon-style {
-    display: flex;
-    gap: 0.2rem;
-    align-items: center;
-    justify-content: flex-start;
-
-    .icon {
-      font-size: 2rem;
-      color: orange;
-    }
-
-    .empty-icon {
-      font-size: 2.6rem;
-    }
-    p {
-      margin: 0;
-      padding-left: 1.2rem;
-    }
-  }
-`;
-
-export default Star;
+export default StarRating;

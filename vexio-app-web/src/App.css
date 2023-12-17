@@ -73,3 +73,31 @@ body {
   border-radius: 150px;
   cursor: pointer;
 }
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+}
+
+.star {
+  color: #ffd700; /* Empty star color */
+  cursor: pointer;
+}
+
+.filled {
+  color: #ffd700; /* Filled star color */
+}
+
+.half-filled {
+  position: relative;
+  color: #ffd700; /* Half-filled star color */
+}
+
+.half-filled::before {
+  content: "\2605"; /* Unicode character for a filled star */
+  position: absolute;
+  left: 0;
+  overflow: hidden;
+  color: #fff; /* Background color to hide half of the star */
+}

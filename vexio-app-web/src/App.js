@@ -11,7 +11,7 @@ import { CookiesProvider, useCookies } from "react-cookie";
 import ReviewProduct from "./pages/reviewProduct";
 
 function App() {
-  const [cookies] = useCookies(["access_token"]);
+  const [cookies, setCookie] = useCookies(["access_token"]);
   return (
     <BrowserRouter>
       <CookiesProvider>

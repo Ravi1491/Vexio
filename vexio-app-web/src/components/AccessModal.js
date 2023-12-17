@@ -44,7 +44,7 @@ const AccessModal = ({ isOpen, onClose }) => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const result = await response.json();
-
+      console.log("dddd", response);
       window.location.href = result.authUrl;
       setIsLoading(false);
     } catch (error) {
