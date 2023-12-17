@@ -43,3 +43,14 @@ export async function updateStore(payload, condition) {
     console.error("Error while updating store", error.message);
   }
 }
+
+export async function deleteStore(condition) {
+  try {
+    await storeModel.destroy({ where: condition });
+
+    console.log("Store delete successfully");
+    return;
+  } catch (error) {
+    console.error("Error while deleting store", error.message);
+  }
+}
