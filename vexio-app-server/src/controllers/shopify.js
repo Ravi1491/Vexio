@@ -101,7 +101,7 @@ export async function oAuthCallback(req, res) {
     );
 
     await registerWebhook(shop, access_token);
-    // await fetchProducts(req, res);
+    await fetchProducts(req, res);
 
     // res.send("Successfully connected to Shopify!");
     return res.redirect(`${fe_domain}/dashboard`);
