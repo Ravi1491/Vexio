@@ -46,6 +46,31 @@ const AccessModal = ({ isOpen, onClose }) => {
       const result = await response.json();
       console.log("dddd", response);
       window.location.href = result.authUrl;
+
+      const response1 = await fetch(
+        `https://vexio-production.up.railway.app/stores/getAllStores?email=${result.email}`,
+
+        //ravi149185@gmail.com`,
+
+        //${result.user.email}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // Add any additional headers if needed
+          },
+        }
+      );
+
+      if (!response1.ok) {
+        throw new Error(`HTTP error! Status: ${response1.status}`);
+      }
+
+      const storesData = await response1.json();
+      console.log("Get All Stores response:", storesData);
+
+      storesData.count > 0 && navigate("/storeList");
+
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error.message);
