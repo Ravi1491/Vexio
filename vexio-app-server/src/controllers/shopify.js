@@ -101,7 +101,7 @@ export async function oAuthCallback(req, res) {
     );
 
     await registerWebhook(shop, access_token);
-    await fetchProducts(req, res);
+    await fetchAllProducts(storeName);
 
     // res.send("Successfully connected to Shopify!");
     return res.redirect(`${fe_domain}/dashboard`);
@@ -146,6 +146,56 @@ export async function uninstallApp(req, res) {
     await deleteStore({ storeName: shop, email });
 
     res.send("App successfully uninstalled");
+  } catch (error) {
+    logger.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+}
+
+export async function fetchAllProducts(storeName) {
+  try {
+    const storeData = await findOneStore({
+      storeName: storeName,
+      isAppInstall: true,
+    });
+
+    if (!storeData) {
+      res.status(404).send("Store not found or app not installed");
+      return;
+    }
+
+    const accessToken = storeData.accessToken;
+
+    // Fetch products from Shopify using the accessToken
+    const shopifyApiUrl = `https://${storeName}.myshopify.com/admin/api/2023-10/products.json`;
+
+    const response = await axios.get(shopifyApiUrl, {
+      headers: {
+        "X-Shopify-Access-Token": accessToken,
+      },
+    });
+
+    const products = response.data.products;
+
+    let productsData = [];
+    await Promise.all(
+      products.map(async (product) => {
+        const { title, id, handle } = product;
+        const storeId = storeData.id;
+
+        productsData.push({
+          storeId,
+          productTitle: title,
+          productSlug: handle,
+          productId: id,
+          metadata: product,
+        });
+      })
+    );
+
+    await bulkCreateStoreProducts(productsData);
+
+    res.json(products);
   } catch (error) {
     logger.error(error);
     res.status(500).send("Internal Server Error");
