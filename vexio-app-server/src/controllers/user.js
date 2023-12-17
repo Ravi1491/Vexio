@@ -2,7 +2,6 @@ import { compare, genSalt, hash } from "bcryptjs";
 
 import logger from "../utils/logger";
 import { createUser, findOneUser, generateToken } from "../services/user";
-import { fe_domain } from "../../config/default";
 
 export async function register(req, res) {
   try {
@@ -39,8 +38,6 @@ export async function register(req, res) {
 
     res.cookie("user_access_token", jwtToken.token, {
       maxAge: 24 * 60 * 60 * 1000,
-      domain: new URL(fe_domain).hostname,
-      path: "/",
     });
 
     res.status(201).send(newUser);
@@ -78,8 +75,6 @@ export async function login(req, res) {
 
     res.cookie("user_access_token", jwtToken.token, {
       maxAge: 24 * 60 * 60 * 1000,
-      domain: new URL(fe_domain).hostname,
-      path: "/",
     });
 
     const response = {

@@ -3,7 +3,7 @@ import express from "express";
 import userRouter from "./user-routes";
 import shopifyRouter from "./shopify-routes";
 import sendEmail from "../utils/sendMail";
-import { node_env } from "../../config/default";
+import { be_domain } from "../../config/default";
 import storeRouter from "./store-routes";
 import webhookRouter from "./webhooks";
 
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 
 router.get("/email/redirect", async (req, res) => {
   return res.send(req.query);
-})
+});
 
 router.get("/send-test-email", async (req, res) => {
   const companyName = "Amazon";
@@ -24,14 +24,11 @@ router.get("/send-test-email", async (req, res) => {
   const productName = "Leather Jacket";
 
   sendEmail(customerEmail, {
-    templateName: 'product_review',
+    templateName: "product_review",
     customerName,
     companyName,
     productName,
-    redirectUrl:
-      node_env === "development"
-        ? `http://localhost:4000/email/redirect?email=${customerEmail}&product=${productName}`
-        : `https://vexio-production.up.railway.app/email/redirect?email=${customerEmail}&product=${productName}`,
+    redirectUrl: `${be_domain}/email/redirect?email=${customerEmail}&product=${productName}`,
   });
 
   return res.send("Email Sent");
