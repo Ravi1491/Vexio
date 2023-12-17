@@ -17,7 +17,8 @@ export async function getAllStores(req, res) {
 
 export async function getAllProducts(req, res) {
   try {
-    const {count, rows} = await findAllProducts();
+    const storeId = req.query.storeId;
+    const {count, rows} = await findAllProducts({ storeId });
 
     return res.send({
       count,
