@@ -34,6 +34,7 @@ export async function createStore(payload) {
       email: payload.email,
       accessToken: "",
       isAppInstall: false,
+      state: "",
     });
 
     console.log("Store created successfully", storeData);

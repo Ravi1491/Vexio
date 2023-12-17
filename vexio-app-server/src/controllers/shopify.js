@@ -1,4 +1,4 @@
-// import crypto from "crypto";
+import crypto from "crypto";
 import axios from "axios";
 import querystring from "querystring";
 import {
@@ -43,9 +43,9 @@ export async function installApp(req, res) {
       return res.send("App already installed");
     }
 
-    // const nonce = crypto.randomBytes(8).toString("hex");
+    const nonce = crypto.randomBytes(8).toString("hex");
     const redirectUri = `${be_domain}/shopify/oauth/callback`;
-    const authUrl = `https://${shop}.myshopify.com/admin/oauth/authorize?client_id=${apiKey}&scope=${scopes}&redirect_uri=${redirectUri}`;
+    const authUrl = `https://${shop}.myshopify.com/admin/oauth/authorize?client_id=${apiKey}&scope=${scopes}&redirect_uri=${redirectUri}&state=${nonce}`;
 
     const response = {
       authUrl,
@@ -59,12 +59,14 @@ export async function installApp(req, res) {
 export async function oAuthCallback(req, res) {
   const apiKey = shopify_api_key;
   const apiSecret = shopify_api_secret;
-  const { code, shop } = req.query;
+  const { code, shop, state } = req.query;
 
-  if (!code || !shop) {
-    res.send("Missing code or shop parameter");
+  if (!code || !shop || !state) {
+    res.send("Missing code or shop or state parameter");
     return;
   }
+
+  console.log("code", code, "shop", shop, "nonce", state);
 
   const accessTokenUrl = `https://${shop}/admin/oauth/access_token`;
   const accessParams = {
@@ -93,7 +95,7 @@ export async function oAuthCallback(req, res) {
     }
 
     await updateStore(
-      { accessToken: access_token, isAppInstall: true },
+      { accessToken: access_token, isAppInstall: true, state: state },
       { storeName }
     );
 
