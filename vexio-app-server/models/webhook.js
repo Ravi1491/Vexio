@@ -2,7 +2,7 @@
 import { Model } from "sequelize";
 
 export default (sequelize, DataTypes) => {
-  class user extends Model {
+  class webhook extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,7 @@ export default (sequelize, DataTypes) => {
     }
   }
 
-  user.init(
+  webhook.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -21,44 +21,34 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true,
       },
-      firstName: {
+      customerName: {
         type: DataTypes.STRING,
         allowNull: false,
-        field: "first_name",
+        field: "customer_name",
       },
-      lastName: {
+      customerEmail: {
         type: DataTypes.STRING,
         allowNull: false,
-        field: "last_name",
+        field: "customer_email",
       },
-      username: {
+      orderNumber: {
+        type: DataTypes.STRING,
+        field: "order_number",
+      },
+      productName: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        field: "product_name",
       },
-      email: {
+      productId: {
         type: DataTypes.STRING,
         allowNull: false,
-        isEmail: true,
+        field: "product_id",
       },
-      isEmailVerified: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-        field: "is_email_verified",
-      },
-      password: {
+      reviewRequestId: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      paymentOrderId: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        field: 'payment_order_id'
-      },
-      paymentStatus: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        field: 'payment_status'
+        field: "review_request_id",
       },
       createdAt: {
         allowNull: false,
@@ -81,13 +71,13 @@ export default (sequelize, DataTypes) => {
       timestamps: true,
       deletedAt: "deleted_at",
       sequelize,
-      modelName: "user",
+      modelName: "webhook",
     }
   );
 
-  user.associate = function (models) {
+  webhook.associate = function (models) {
     // associations can be defined here
   };
 
-  return user;
+  return webhook;
 };
