@@ -19,7 +19,7 @@ function App() {
           <Route
             path="/login"
             element={
-              cookies.access_token ? (
+              cookies.access_token !== undefined ? (
                 <Navigate to="/access_shopify" />
               ) : (
                 <Login />
@@ -29,7 +29,7 @@ function App() {
           <Route
             path="/signup"
             element={
-              cookies.access_token ? (
+              cookies.access_token !== undefined ? (
                 <Navigate to="/access_shopify" />
               ) : (
                 <SignUp />
