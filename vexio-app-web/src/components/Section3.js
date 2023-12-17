@@ -1,4 +1,4 @@
-import aboutus from "../assets/aboutus.jpg"
+import aboutus from "../assets/aboutus.jpg";
 
 export default function Section3() {
   return (
@@ -31,7 +31,7 @@ export default function Section3() {
             marginTop: "20px",
           }}
         >
-          We Create a Steps to Build a<br /> Successful Digital Product
+          We Create Steps to Build a<br /> Successful Digital Product
         </div>
         <div
           style={{
@@ -43,11 +43,7 @@ export default function Section3() {
         >
           With over 50 years of combined experience, our mission is to design
           with your values and vision in mind. We’re out to create purposeful
-          spaces that balance art and creativity with science and strategy.
-          <br />
-          <br />
-          We’re out to create purposeful spaces that balance art and creativity
-          with science and strategy.
+          spaces that increase your products' sales
         </div>
       </div>
     </div>

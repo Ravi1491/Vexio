@@ -29,10 +29,10 @@ export default function Section1() {
             marginTop: "15px",
           }}
         >
-          We build effective strategies to help you get
-          <br /> reviews by customers and prospects across the entire web.
+          We create impactful strategies aimed at securing<br/> reviews from both
+          customers and prospects<br/> throughout the entire online landscape.
         </div>
-        <div
+        {/* <a
           style={{
             backgroundColor: "#FF4495",
             paddingLeft: "30px",
@@ -42,14 +42,15 @@ export default function Section1() {
             borderRadius: "150px",
             cursor: "pointer",
             maxWidth: "max-content",
-            marginTop: "50px",
+            marginTop: "250px",
             fontSize: "20px",
             color: "white",
             //   fontWeight: ""
           }}
+          href="/login"
         >
           Explore Services
-        </div>
+        </a> */}
       </div>
       <img
         src={illustration}

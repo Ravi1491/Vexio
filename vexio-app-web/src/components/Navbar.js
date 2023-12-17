@@ -67,7 +67,7 @@ export default function Navbar() {
               color: "black",
             }}
             className="navitem"
-            href="mailto: ishitaarora382@gmail.com"
+            href="mailto: ishita@gluelabs.com"
           >
             Contact
           </a>

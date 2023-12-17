@@ -32,14 +32,16 @@ const style = {
 };
 
 export default function Reviews() {
-  const [open, setOpen] = React.useState(false);
-  const handleClose = () => setOpen(false);
-  const [cookies, setCookie] = useCookies(["access_token"]);
-
   const [products, setProducts] = useState();
   const [isProductLoading, setIsProductsLoading] = useState(false);
   const [userEmail, setUserEmail] = useState("");
-  console.log(products, "state prpd");
+  const [open, setOpen] = React.useState(false);
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [username, setUsername] = useState("");
+  const [sendEmail, setSendEmail] = useState("");
+  const [cookies, setCookie] = useCookies(["access_token"]);
+  const handleClose = () => setOpen(false);
+
   const getProducts = React.useCallback(async () => {
     try {
       setIsProductsLoading(true);
@@ -54,6 +56,30 @@ export default function Reviews() {
       console.log(err);
     }
   }, [userEmail]);
+
+  const requestEmail = React.useCallback(async () => {
+    try {
+      // setIsProductsLoading(true);
+      const response = await axios.get(
+        `http://localhost:4000/email/send-email`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            customerEmail: sendEmail,
+            customerName: username,
+            productSlug: send,
+          }),
+        }
+      );
+      // setProducts(response.data);
+      console.log(response, "products here");
+      // setIsProductsLoading(false);
+    } catch (err) {
+      // setIsProductsLoading(false);
+      console.log(err);
+    }
+  }, [sendEmail, username]);
   console.log(isProductLoading, "loading");
   useEffect(() => {
     const fetchData = async () => {
@@ -153,22 +179,9 @@ export default function Reviews() {
                 <TableCell align="left">Action</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {/* {rows.map((row) => ( */}
-              <TableRow
-                // key={row.name}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  dfgbfvdc
-                </TableCell>
-                <TableCell align="left">452</TableCell>
-                <TableCell align="left">7452</TableCell>
-                <TableCell align="left">sdfg</TableCell>
-              </TableRow>
-              {/* // ))} */}
-            </TableBody>
+            <TableBody></TableBody>
           </Table>
+          <div className="w-full text-center py-10">NO REVIEWS YET!</div>
         </TableContainer>
       </div>
       <Modal
@@ -190,6 +203,7 @@ export default function Reviews() {
               id="outlined-basic"
               variant="outlined"
               size="small"
+              onChange={(e) => setUsername(e.target.value)}
             />
           </Box>
           <Box display="flex" gap="10px" alignItems="center" marginTop="20px">
@@ -201,6 +215,7 @@ export default function Reviews() {
               id="outlined-basic"
               variant="outlined"
               size="small"
+              onChange={(e) => setSendEmail(e.target.value)}
             />
           </Box>
           <Box display="flex" gap="10px" alignItems="center" marginTop="20px">
@@ -210,10 +225,12 @@ export default function Reviews() {
             <TextField
               id="outlined-select-currency"
               select
+              label="Select"
               style={{
                 width: "100%",
               }}
               size="small"
+              onChange={(e) => setSelectedProduct(e.target.value)}
             >
               {isProductLoading ? (
                 <Typography>Loading...</Typography>
@@ -223,7 +240,11 @@ export default function Reviews() {
                 products &&
                 products.data &&
                 products.data.map((item) => {
-                  <MenuItem>{item}</MenuItem>;
+                  return (
+                    <MenuItem key={item.productSlug} value={item.productSlug}>
+                      {item.productSlug}
+                    </MenuItem>
+                  );
                 })
               )}
             </TextField>
@@ -231,6 +252,7 @@ export default function Reviews() {
           <Button
             onClick={() => {
               setOpen(true);
+              requestEmail();
             }}
             variant="contained"
             style={{

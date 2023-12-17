@@ -47,13 +47,13 @@ export default function Dashboard() {
     datasets: [
       {
         label: "Reviews requested",
-        data: [15, 8, 26, 13, 35, 16, 9, 21, 23, 19],
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
       {
         label: "Reviews received",
-        data: [12, 8, 21, 10, 24, 10, 9, 11, 18, 15],
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
@@ -113,7 +113,7 @@ export default function Dashboard() {
                 fontWeight: 700,
               }}
             >
-              145
+              0
             </span>
           </div>
         </div>
@@ -146,7 +146,7 @@ export default function Dashboard() {
                 fontWeight: 700,
               }}
             >
-              98
+              0
             </span>
           </div>
         </div>
@@ -179,7 +179,7 @@ export default function Dashboard() {
                 fontWeight: 700,
               }}
             >
-              88
+              0
             </span>
           </div>
         </div>
