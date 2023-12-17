@@ -19,12 +19,12 @@ const {
 const BE_DOMAIN =
   NODE_ENV === "production"
     ? "https://vexio-production.up.railway.app/"
-    : "https://19e1-2405-201-5011-217a-e460-c7ea-8531-a347.ngrok-free.app";
+    : "https://f2e8-2409-40d1-8b-29f8-b584-49fd-cb46-d73b.ngrok-free.app";
 
 const FE_DOMAIN =
   NODE_ENV === "production"
     ? "https://vexio-lyart.vercel.app"
-    : "http://localhost:3000";
+    : "https://0e30-2405-201-5011-217a-e460-c7ea-8531-a347.ngrok-free.app";
 
 module.exports = {
   port: PORT || 4000,
