@@ -19,7 +19,7 @@ const {
 const BE_DOMAIN =
   NODE_ENV === "production"
     ? "https://vexio-production.up.railway.app"
-    : "http://localhost:4000";
+    : "https://19e1-2405-201-5011-217a-e460-c7ea-8531-a347.ngrok-free.app";
 
 const FE_DOMAIN =
   NODE_ENV === "production"
