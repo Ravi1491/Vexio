@@ -14,7 +14,7 @@ import {
   findOneStore,
   updateStore,
 } from "../services/store";
-import { bulkCreateStoreProducts, findOne } from "../services/store-products";
+import { bulkCreateStoreProducts } from "../services/store-products";
 import { registerWebhook } from "./webhook";
 
 export async function installApp(req, res) {
@@ -101,6 +101,7 @@ export async function oAuthCallback(req, res) {
     );
 
     await registerWebhook(shop, access_token);
+    // await fetchProducts(req, res);
 
     // res.send("Successfully connected to Shopify!");
     return res.redirect(`${fe_domain}/dashboard`);
@@ -202,23 +203,6 @@ export async function fetchProducts(req, res) {
     await bulkCreateStoreProducts(productsData);
 
     res.json(products);
-  } catch (error) {
-    logger.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-}
-
-export async function fetchOneProduct(req, res) {
-  try {
-    const { productSlug } = req.body;
-
-    const product = await findOne({ productSlug });
-
-    if (!product) {
-      return res.status(400).send("Product not found");
-    }
-
-    return res.status(200).send(product);
   } catch (error) {
     logger.error(error);
     res.status(500).send("Internal Server Error");
