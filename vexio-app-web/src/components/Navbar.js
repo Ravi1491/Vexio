@@ -11,7 +11,6 @@ export default function Navbar() {
         alignItems: "center",
       }}
     >
-      <button class="bg-sky-500 hover:bg-sky-700 ...">Save changes</button>
       <div
         style={{
           display: "flex",
