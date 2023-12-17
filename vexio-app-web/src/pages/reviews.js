@@ -140,7 +140,7 @@ export default function Reviews() {
               size="small"
             />
           </Box>
-          <Box display="flex" gap="15px" alignItems="center" marginTop="20px">
+          <Box display="flex" gap="10px" alignItems="center" marginTop="20px">
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               Customer Email:
             </Typography>
@@ -151,7 +151,7 @@ export default function Reviews() {
               size="small"
             />
           </Box>
-          <Box display="flex" gap="15px" alignItems="center" marginTop="20px">
+          <Box display="flex" gap="10px" alignItems="center" marginTop="20px">
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               Product:
             </Typography>
