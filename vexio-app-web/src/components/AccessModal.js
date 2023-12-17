@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -7,12 +7,91 @@ import Box from "@mui/system/Box";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import { useCookies } from "react-cookie";
+import MuiAlert from "@mui/material/Alert";
 
 import logo from "../assets/logo.png";
 
-const AccessModal = ({ isOpen, onClose }) => {
-  const navigate = useNavigate();
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
+const AccessModal = ({ isOpen, onClose }) => {
+  const [storeName, setStoreName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [responseData, setResponseData] = useState(null);
+  const [cookies, setCookie] = useCookies(["access_token"]);
+  const navigate = useNavigate();
+  const onClickHandler = async () => {
+    console.log("val", storeName, responseData.email);
+
+    try {
+      // Make a GET request to your backend API
+      setIsLoading(true);
+      console.log("responseData", responseData.email);
+      const response = await fetch(
+        `http://localhost:4000/shopify/install?shop=${storeName}&&email=${responseData.email}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // Add any additional headers if needed
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const result = await response.json();
+      setIsLoading(false);
+      window.location.href = result.authUrl;
+
+      // setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
+      // setErrorMessage(error.message);
+
+      <Alert severity="error">{error.message}</Alert>;
+
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    // Function to call API
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:4000/user/me`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${cookies.access_token}`,
+            // Add any additional headers if needed
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        // Update state with API response
+        setResponseData(result);
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
+        <Alert severity="error">{error.message}</Alert>;
+        // Handle the error as needed
+      }
+    };
+
+    // Call the API when the component mounts
+    if (isOpen) {
+      fetchData();
+    }
+  }, [isOpen]);
+  console.log("responseData", responseData, storeName);
   return (
     <Dialog
       open={isOpen}
@@ -89,7 +168,12 @@ const AccessModal = ({ isOpen, onClose }) => {
           >
             https://
             <Box sx={{}}>
-              <TextField id="outlined-basic" variant="outlined" />
+              <TextField
+                value={storeName}
+                onChange={(e) => setStoreName(e.target.value)}
+                id="outlined-basic"
+                variant="outlined"
+              />
             </Box>
             .myshopify.com
           </Box>
@@ -102,7 +186,8 @@ const AccessModal = ({ isOpen, onClose }) => {
           >
             <Box sx={{ color: "#FB7D63" }}>
               <Button
-                onClick={onClose}
+                onClick={onClickHandler}
+                disabled={!(storeName.length > 1)}
                 sx={{
                   color: "white",
                   background: "#FB7D63",
