@@ -110,6 +110,7 @@ export default function Reviews() {
     if (open) {
       fetchData();
     }
+    userEmail = "ravi149185@gmail.com";
     if (userEmail !== "") {
       getProducts();
     }
