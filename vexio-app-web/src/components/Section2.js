@@ -1,4 +1,4 @@
-import "../App.css"
+import "../App.css";
 
 export default function Section2() {
   return (
@@ -36,7 +36,7 @@ export default function Section2() {
           display: "flex",
           justifyContent: "space-between",
           gap: "20px",
-          flexWrap:'wrap'
+          flexWrap: "wrap",
         }}
         className="fourbox"
       >
@@ -60,8 +60,8 @@ export default function Section2() {
               //   marginBottom: "21px",
             }}
           >
-            Discover, Explore the <br />
-            Product
+            Discover, Explore
+            <br /> the Product
           </div>
           <div></div>
           <div
@@ -93,8 +93,8 @@ export default function Section2() {
               //   marginBottom: "21px",
             }}
           >
-            Discover, Explore the <br />
-            Product
+            Set schedule for
+            <br /> sending email
           </div>
           <div></div>
           <div
@@ -102,8 +102,8 @@ export default function Section2() {
               fontSize: "19px",
             }}
           >
-            Effective strategies to help you <br />
-            reach customers.
+            Schedule a time to send daily
+            <br /> requests.
           </div>
         </div>
         <div
@@ -126,8 +126,8 @@ export default function Section2() {
               //   marginBottom: "21px",
             }}
           >
-            Discover, Explore the <br />
-            Product
+            Track your products
+            <br /> rating.
           </div>
           <div></div>
           <div
@@ -135,41 +135,8 @@ export default function Section2() {
               fontSize: "19px",
             }}
           >
-            Effective strategies to help you <br />
-            reach customers.
-          </div>
-        </div>
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: "5px",
-            padding: "40px 25px",
-            transition: "all .4s ease-out 0s",
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
-            boxShadow: "0 25px 35px rgba(68,162,255,0.4)",
-          }}
-        >
-          <div
-            style={{
-              color: "#192839",
-              fontSize: "28px",
-              fontWeight: "700",
-              //   marginBottom: "21px",
-            }}
-          >
-            Discover, Explore the <br />
-            Product
-          </div>
-          <div></div>
-          <div
-            style={{
-              fontSize: "19px",
-            }}
-          >
-            Effective strategies to help you <br />
-            reach customers.
+            Keep a regular track on your
+            <br /> products for better sales
           </div>
         </div>
       </div>

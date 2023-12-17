@@ -18,7 +18,7 @@ export default function Section4() {
           style={{
             width: "100%",
             height: "100%",
-            borderRadius: '40px'
+            borderRadius: "40px",
           }}
         />
         <div
@@ -62,12 +62,9 @@ export default function Section4() {
             We’re out to create purposeful spaces that balance art
             <br /> and creativity with science and strategy.
           </div>
-          <div
+          <a
             style={{
-              marginLeft: "auto",
-              marginRight: "auto",
               marginTop: "40px",
-              border: "1px solid #fff",
               color: "#fff",
               background: "none",
               maxWidth: "max-content",
@@ -81,9 +78,10 @@ export default function Section4() {
               overflow: "hidden",
               borderRadius: "30px",
             }}
+            href="mailto: ishita@gluelabs.com"
           >
             Contact Us
-          </div>
+          </a>
         </div>
       </div>
     </div>

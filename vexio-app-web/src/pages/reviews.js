@@ -179,22 +179,9 @@ export default function Reviews() {
                 <TableCell align="left">Action</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {/* {rows.map((row) => ( */}
-              <TableRow
-                // key={row.name}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  dfgbfvdc
-                </TableCell>
-                <TableCell align="left">452</TableCell>
-                <TableCell align="left">7452</TableCell>
-                <TableCell align="left">sdfg</TableCell>
-              </TableRow>
-              {/* // ))} */}
-            </TableBody>
+            <TableBody></TableBody>
           </Table>
+          <div className="w-full text-center py-10">NO REVIEWS YET!</div>
         </TableContainer>
       </div>
       <Modal
