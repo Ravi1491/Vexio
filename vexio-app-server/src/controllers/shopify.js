@@ -47,7 +47,10 @@ export async function installApp(req, res) {
     const redirectUri = `${be_domain}/shopify/oauth/callback`;
     const authUrl = `https://${shop}.myshopify.com/admin/oauth/authorize?client_id=${apiKey}&scope=${scopes}&redirect_uri=${redirectUri}`;
 
-    res.redirect(authUrl);
+    const response = {
+      authUrl,
+    };
+    res.status(200).send(response);
   } catch (error) {
     logger.error(error);
   }
