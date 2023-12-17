@@ -50,6 +50,16 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      paymentOrderId: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        field: 'payment_order_id'
+      },
+      paymentStatus: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        field: 'payment_status'
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
