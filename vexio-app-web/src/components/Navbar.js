@@ -11,6 +11,7 @@ export default function Navbar() {
         alignItems: "center",
       }}
     >
+      <button class="bg-sky-500 hover:bg-sky-700 ...">Save changes</button>
       <div
         style={{
           display: "flex",
@@ -103,7 +104,7 @@ export default function Navbar() {
               borderRadius: "150px",
               cursor: "pointer",
               maxHeight: "max-content",
-              textDecoration: 'none',
+              textDecoration: "none",
               color: "white",
             }}
             href="/signup"
