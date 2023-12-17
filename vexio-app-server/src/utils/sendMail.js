@@ -9,8 +9,8 @@ const SENDGRID_API_KEY = sendgrid_api_key;
 sendGridMail.setApiKey(SENDGRID_API_KEY);
 
 const templates = {
-  product_review: 'd-2af4d79afa464ed1b395d6a080c21426',
-}
+  product_review: "d-2af4d79afa464ed1b395d6a080c21426",
+};
 
 function getMessage(email, data) {
   return {
@@ -21,9 +21,10 @@ function getMessage(email, data) {
       customerName: data.customerName,
       productName: data.productName,
       companyName: data.companyName,
-      senderEmail: 'vexio@gmail.com',
+      senderEmail: "vexio@gmail.com",
+      productImage: data.productImage,
       redirectUrl: data.redirectUrl,
-    }
+    },
   };
 }
 
