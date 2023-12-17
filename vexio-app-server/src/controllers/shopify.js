@@ -101,7 +101,8 @@ export async function oAuthCallback(req, res) {
 
     await registerWebhook(shop, access_token);
 
-    res.send("Successfully connected to Shopify!");
+    // res.send("Successfully connected to Shopify!");
+    return res.redirect(`${fe_domain}/dashboard`);
   } catch (error) {
     logger.error(error);
     res.send("Error while OAuth process");
