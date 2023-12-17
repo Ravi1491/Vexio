@@ -36,6 +36,12 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         field: "product_id",
       },
+      status: {
+        type: DataTypes.ENUM('PENDING', 'SENT', 'RECEIVED'),
+        allowNull: false,
+        defaultValue: 'PENDING',
+        field: 'status'
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

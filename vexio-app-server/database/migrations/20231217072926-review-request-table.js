@@ -25,6 +25,12 @@ module.exports = {
         allowNull: false,
         field: "product_id",
       },
+      status: {
+        type: Sequelize.ENUM('PENDING', 'SENT', 'RECEIVED'),
+        allowNull: false,
+        defaultValue: 'PENDING',
+        field: 'status'
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
