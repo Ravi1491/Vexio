@@ -61,7 +61,7 @@ const ReviewProduct = () => {
         };
 
         const response = await fetch(
-          `http://localhost:4000/shopify/fetch-product`,
+          `https://vexio-production.up.railway.app/shopify/fetch-product`,
           {
             method: "GET",
             headers: {
@@ -110,7 +110,7 @@ const ReviewProduct = () => {
       };
 
       const response = await fetch(
-        `http://localhost:4000/reviews/accept-email-reviews`,
+        `https://vexio-production.up.railway.app/reviews/accept-email-reviews`,
         {
           method: "POST",
           headers: {

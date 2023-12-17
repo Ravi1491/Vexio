@@ -106,14 +106,17 @@ export default function SignUp() {
           username: formData.username,
         };
         console.log("post", postData);
-        const response = await fetch("http://localhost:4000/user/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            // Add any additional headers if needed
-          },
-          body: JSON.stringify(postData),
-        });
+        const response = await fetch(
+          "https://vexio-production.up.railway.app/user/signup",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              // Add any additional headers if needed
+            },
+            body: JSON.stringify(postData),
+          }
+        );
 
         if (!response.ok) {
           console.log("reeeee", response);

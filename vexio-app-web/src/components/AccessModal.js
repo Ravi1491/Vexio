@@ -30,7 +30,7 @@ const AccessModal = ({ isOpen, onClose }) => {
       setIsLoading(true);
       console.log("responseData", responseData.email);
       const response = await fetch(
-        `http://localhost:4000/shopify/install?shop=${storeName}&&email=${responseData.email}`,
+        `https://vexio-production.up.railway.app/shopify/install?shop=${storeName}&&email=${responseData.email}`,
         {
           method: "GET",
           headers: {
@@ -61,14 +61,17 @@ const AccessModal = ({ isOpen, onClose }) => {
     // Function to call API
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/user/me`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `${cookies.access_token}`,
-            // Add any additional headers if needed
-          },
-        });
+        const response = await fetch(
+          `https://vexio-production.up.railway.app/user/me`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `${cookies.access_token}`,
+              // Add any additional headers if needed
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

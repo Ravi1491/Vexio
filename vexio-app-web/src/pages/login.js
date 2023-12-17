@@ -79,14 +79,17 @@ export default function Login() {
           password: formData.password,
         };
 
-        const response = await fetch("http://localhost:4000/user/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            // Add any additional headers if needed
-          },
-          body: JSON.stringify(postData),
-        });
+        const response = await fetch(
+          "https://vexio-production.up.railway.app/user/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              // Add any additional headers if needed
+            },
+            body: JSON.stringify(postData),
+          }
+        );
 
         if (!response.ok) {
           setErrorMessage(`HTTP error! Status: ${response.status}`);
@@ -102,7 +105,7 @@ export default function Login() {
         console.log("111SSSSTTresponse", result.user.email);
 
         const response1 = await fetch(
-          `http://localhost:4000/stores/getAllStores?email=//${result.user.email}`,
+          `https://vexio-production.up.railway.app/stores/getAllStores?email=//${result.user.email}`,
 
           //ravi149185@gmail.com`,
 

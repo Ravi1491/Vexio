@@ -46,7 +46,7 @@ export default function Reviews() {
     try {
       setIsProductsLoading(true);
       const response = await axios.get(
-        `http://localhost:4000/stores/all-products?email=${userEmail}`
+        `https://vexio-production.up.railway.app/stores/all-products?email=${userEmail}`
       );
       setProducts(response.data);
       console.log(response.data, "products here");
@@ -61,7 +61,7 @@ export default function Reviews() {
     try {
       // setIsProductsLoading(true);
       const response = await axios.get(
-        `http://localhost:4000/email/send-email`,
+        `https://vexio-production.up.railway.app/email/send-email`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -84,13 +84,16 @@ export default function Reviews() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/user/me`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `${cookies.access_token}`,
-          },
-        });
+        const response = await fetch(
+          `https://vexio-production.up.railway.app/user/me`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `${cookies.access_token}`,
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
