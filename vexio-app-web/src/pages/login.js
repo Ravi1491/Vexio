@@ -13,6 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CookiesProvider, useCookies } from "react-cookie";
 import StoreTable from "../components/StoreTable";
 import AccessModal from "../components/AccessModal";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -105,7 +106,7 @@ export default function Login() {
 
         const storesData = await response1.json();
         console.log("Get All Stores response:", storesData);
-
+        navigate("/access_shopify");
         setCookie("access_token", result.accessToken, { path: "/" });
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -156,65 +157,61 @@ export default function Login() {
       }));
     }
   }, [formData.email, formData.password]);
+  const navigate = useNavigate();
 
   return (
-    <CookiesProvider>
-      {cookies.access_token ? (
-        <AccessModal isOpen={true} />
-      ) : (
-        // <AccessModal isOpen={true} />
-        <ThemeProvider theme={defaultTheme}>
-          <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <Box
-              sx={{
-                marginTop: 8,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sign in
-              </Typography>
-              <Box
-                component="form"
-                onSubmit={handleSubmit}
-                noValidate
-                sx={{ mt: 1 }}
-              >
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  onChange={handleInputChange("email")}
-                  value={formData.email}
-                  error={Boolean(errors.email)}
-                  helperText={errors.email}
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  onChange={handleInputChange("password")}
-                  value={formData.password}
-                  error={Boolean(errors.password)}
-                  helperText={errors.password}
-                />
-                {/* <FormControlLabel
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={handleInputChange("email")}
+              value={formData.email}
+              error={Boolean(errors.email)}
+              helperText={errors.email}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={handleInputChange("password")}
+              value={formData.password}
+              error={Boolean(errors.password)}
+              helperText={errors.password}
+            />
+            {/* <FormControlLabel
                   control={
                     <Checkbox
                       checked={formData.checkbox}
@@ -225,33 +222,31 @@ export default function Login() {
                   }
                   label="Remember me"
                 /> */}
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                  disabled={
-                    formData.email === "" ||
-                    formData.password === "" ||
-                    errors.email ||
-                    errors.password
-                  }
-                >
-                  Sign In
-                </Button>
-                <Grid container>
-                  <Grid item>
-                    <Link href="/signup" variant="body2">
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Box>
-            <Copyright sx={{ mt: 8, mb: 4 }} />
-          </Container>
-        </ThemeProvider>
-      )}
-    </CookiesProvider>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              disabled={
+                formData.email === "" ||
+                formData.password === "" ||
+                errors.email ||
+                errors.password
+              }
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item>
+                <Link href="/signup" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+        <Copyright sx={{ mt: 8, mb: 4 }} />
+      </Container>
+    </ThemeProvider>
   );
 }

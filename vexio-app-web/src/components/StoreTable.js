@@ -15,6 +15,7 @@ import Button from "@mui/material/Button";
 import { styled as MuiStyle } from "@mui/material/styles";
 import styled from "@emotion/styled";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import Navbar from "./Navbar";
 
@@ -213,6 +214,7 @@ export const ColorWrapper = styled(Box)`
 
 const DisableTableContainerStyles = { overflowX: "none" };
 export default function StoreTable() {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{ width: "100%", height: "calc(100% - 32px)", position: "relative" }}
@@ -227,7 +229,7 @@ export default function StoreTable() {
         }}
       >
         <Button
-          // onClick={onClose}
+          onClick={() => navigate("/access_shopify")}
           sx={{
             color: "white",
             background: "#ff4495",
