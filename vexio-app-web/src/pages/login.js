@@ -13,6 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import MuiAlert from "@mui/material/Alert";
+import { useLoginMutation } from "../hooks";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -63,13 +64,13 @@ export default function Login() {
 
     return Object.values(newErrors).every((error) => error === null);
   };
+  const loginMutation = useLoginMutation();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (validateForm()) {
       // Perform form submission logic here
-      console.log("form", formData);
 
       try {
         // Make a GET request to your backend API
@@ -78,38 +79,13 @@ export default function Login() {
           email: formData.email,
           password: formData.password,
         };
+        const loginData = await loginMutation.mutateAsync(postData);
 
-        const response = await fetch(
-          "https://vexio-production.up.railway.app/user/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              // Add any additional headers if needed
-            },
-            body: JSON.stringify(postData),
-          }
-        );
-
-        if (!response.ok) {
-          setErrorMessage(`HTTP error! Status: ${response.status}`);
-          setFormData({
-            email: "",
-            password: "",
-          });
-
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        console.log("111SSSSTTresponse", result.user.email);
+        console.log("111SSSSTTresponse", loginData);
 
         const response1 = await fetch(
-          `https://vexio-production.up.railway.app/stores/getAllStores?email=//${result.user.email}`,
+          `https://vexio-production.up.railway.app/stores/getAllStores?email=${loginData.user.email}`,
 
-          //ravi149185@gmail.com`,
-
-          //${result.user.email}`,
           {
             method: "GET",
             headers: {
@@ -126,8 +102,8 @@ export default function Login() {
         const storesData = await response1.json();
         console.log("Get All Stores response:", storesData);
 
-        if (result.accessToken !== undefined) {
-          setCookie("access_token", result.accessToken, { path: "/" });
+        if (loginData.accessToken !== undefined) {
+          setCookie("access_token", loginData.accessToken, { path: "/" });
           storesData.count > 0
             ? navigate("/storeList")
             : navigate("/access_shopify");

@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import Service from "../service";
 
 const useMeQuery = () => {
@@ -9,4 +9,13 @@ const useGetAllStores = (email) => {
   return useQuery(["allProducts"], Service.getAllStores);
 };
 
-export { useMeQuery, useGetAllStores };
+const useLoginMutation = () => {
+  return useMutation(Service.login, {
+    onSuccess: (data) => {
+      console.log("Login successful", data);
+      return data;
+    },
+  });
+};
+
+export { useMeQuery, useGetAllStores, useLoginMutation };

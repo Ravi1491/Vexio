@@ -214,7 +214,6 @@ export default function StoreTable() {
 
   const navigate = useNavigate();
 
-  const { data: data1, error } = useMeQuery();
   const { data: stores, isLoading } = useGetAllStores();
 
   const rows = stores?.data;

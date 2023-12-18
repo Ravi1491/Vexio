@@ -42,6 +42,64 @@ class Service {
 
     return response.json(); // No response body for DELETE requests from this API
   };
+
+  login = async (formData) => {
+    const postData = {
+      email: formData.email,
+      password: formData.password,
+    };
+
+    return fetch("https://vexio-production.up.railway.app/user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postData),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to login");
+      }
+      return response.json();
+    });
+  };
+  // const queryClient = useQueryClient();
+
+  // return
+  //  useMutation(
+  //   (formData) => {
+  //     const postData = {
+  //       email: formData.email,
+  //       password: formData.password,
+  //     };
+
+  //     return fetch("https://vexio-production.up.railway.app/user/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(postData),
+  //     }).then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error("Failed to login");
+  //       }
+  //       return response.json();
+  //     });
+  //   },
+  // {
+  //   onSuccess: (data) => {
+  //     // Handle successful login, e.g., store the access token in cookies
+  //     console.log("Login successful", data);
+
+  //     // Example: Store access token in cookies
+  //     // setCookie("access_token", data.access_token);
+
+  //     // Invalidate user-related queries
+  //     queryClient.invalidateQueries("me");
+  //   },
+  // }
+  // );
 }
+
+//}
 
 export default new Service();
