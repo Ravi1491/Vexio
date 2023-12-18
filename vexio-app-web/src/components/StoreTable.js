@@ -11,16 +11,16 @@ import {
   tableCellClasses,
   tableRowClasses,
 } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
 import { styled as MuiStyle } from "@mui/material/styles";
 import styled from "@emotion/styled";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import MuiAlert from "@mui/material/Alert";
-import Checkbox from "@mui/material/Checkbox";
-import { useCookies } from "react-cookie";
 
 import Navbar from "./Navbar";
+import { useGetAllStores, useMeQuery } from "../hooks";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -174,12 +174,6 @@ export const ColorWrapper = styled(Box)`
 const DisableTableContainerStyles = { overflowX: "none" };
 
 export default function StoreTable() {
-  const [responseData, setResponseData] = useState([]);
-  const [userData, setUserData] = useState();
-  const [storeName, setStoreName] = useState("");
-  const [cookies, setCookie] = useCookies(["access_token"]);
-  const [isUninstalled, setIsUninstalled] = useState(false);
-
   async function uninstallHandler(shopName, email) {
     try {
       console.log("checkkkk", shopName, email);
@@ -206,7 +200,7 @@ export default function StoreTable() {
       console.log("ddddd", response);
       // const result = await response.json();
 
-      setIsUninstalled(true);
+      // setIsUninstalled(true);
     } catch (error) {
       console.error("Error fetching data:", error.message);
       <Alert severity="error">{error.message}</Alert>;
@@ -214,69 +208,16 @@ export default function StoreTable() {
     }
   }
 
-  useEffect(() => {
-    // Function to call API
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `https://vexio-production.up.railway.app/user/me`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `${cookies.access_token}`,
-              // Add any additional headers if needed
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const result = await response.json();
-
-        // Update state with API response
-        setUserData(result);
-        console.log("user", result.email);
-        const storeListResponse = await fetch(
-          `http://localhost:4000/stores/getAllStores?email=${result.email}`,
-          //ravi149185@gmail.com`,
-
-          //${result.user.email}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              // Add any additional headers if needed
-            },
-          }
-        );
-
-        if (!storeListResponse.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const result1 = await storeListResponse.json();
-
-        // Update state with API response
-
-        setResponseData(result1);
-      } catch (error) {
-        console.error("Error fetching data:", error.message);
-        <Alert severity="error">{error.message}</Alert>;
-        // Handle the error as needed
-      }
-    };
-
-    // Call the API when the component mounts
-
-    fetchData();
-  }, [isUninstalled]);
+  // useEffect(() => {
+  //   const fetchData = async () => {};
+  // }, [isUninstalled]);
 
   const navigate = useNavigate();
-  console.log("resposnse", responseData);
-  const rows = responseData.data;
+
+  const { data: data1, error } = useMeQuery();
+  const { data: stores, isLoading } = useGetAllStores();
+
+  const rows = stores?.data;
   return (
     <Box
       sx={{ width: "100%", height: "calc(100% - 32px)", position: "relative" }}
@@ -352,7 +293,17 @@ export default function StoreTable() {
               ))}
             </TableRow>
           </StickyTableHead>
-
+          {isLoading && (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
           <TableBody>
             {rows &&
               rows.map((row, index) => {
