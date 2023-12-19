@@ -1,5 +1,6 @@
 import logo from "../assets/logo.png";
 import "../App.css";
+import { getCookie } from "../utils/helpers";
 
 export default function Navbar() {
   return (
@@ -89,9 +90,9 @@ export default function Navbar() {
               color: "black",
             }}
             className="navitemhover"
-            href="/login"
+            href={getCookie("access_token") ? "/storeList" : "/login"}
           >
-            Login
+            {getCookie("access_token") ? "Stores" : "Login"}
           </a>
           <a
             style={{
@@ -105,6 +106,7 @@ export default function Navbar() {
               maxHeight: "max-content",
               textDecoration: "none",
               color: "white",
+              display: getCookie("access_token") ? "none" : "block",
             }}
             href="/signup"
           >
