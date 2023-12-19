@@ -24,7 +24,7 @@ class Service {
     const userDetails = await this.getAllUserDetails();
     console.log("qqqqqqq", getCookie("access_token"), userDetails);
     const response = await fetch(
-      `http://localhost:4000/stores/getAllStores?email=${userDetails.email}`,
+      `https://vexio-production.up.railway.app/stores/getAllStores?email=${userDetails.email}`,
       //ravi149185@gmail.com`,
       //${result.user.email}`,
       {
