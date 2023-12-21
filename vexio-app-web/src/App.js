@@ -9,6 +9,7 @@ import StoreTable from "./components/StoreTable";
 import AccessModal from "./components/AccessModal";
 import { CookiesProvider, useCookies } from "react-cookie";
 import ReviewProduct from "./pages/reviewProduct";
+import ProductPage from "./pages/productPage";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
               element={<AccessModal isOpen={true} />}
             />
             <Route path="/reviewProduct" element={<ReviewProduct />} />
+            <Route path="/productList" element={<ProductPage />} />
           </Routes>
         </CookiesProvider>
       </BrowserRouter>
